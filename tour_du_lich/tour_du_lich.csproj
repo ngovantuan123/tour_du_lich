@@ -202,19 +202,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\db.cs" />
-    <Compile Include="Models\sysdiagram.cs" />
-    <Compile Include="Models\tour.cs" />
-    <Compile Include="Models\tour_chiphi.cs" />
-    <Compile Include="Models\tour_chitiet.cs" />
-    <Compile Include="Models\tour_diadiem.cs" />
-    <Compile Include="Models\tour_doan.cs" />
-    <Compile Include="Models\tour_gia.cs" />
-    <Compile Include="Models\tour_khachhang.cs" />
-    <Compile Include="Models\tour_loai.cs" />
-    <Compile Include="Models\tour_loaichiphi.cs" />
-    <Compile Include="Models\tour_nguoidi.cs" />
-    <Compile Include="Models\tour_nhanvien.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -270,6 +257,12 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.4.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DAO\DAO.csproj">
+      <Project>{e41aaa17-63af-41a1-8856-a9bf0b6e8c77}</Project>
+      <Name>DAO</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

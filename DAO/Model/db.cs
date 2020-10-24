@@ -1,4 +1,4 @@
-namespace tour_du_lich.Models
+namespace DAO.Model
 {
     using System;
     using System.Data.Entity;

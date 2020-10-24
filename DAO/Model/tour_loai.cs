@@ -1,4 +1,4 @@
-namespace tour_du_lich.Models
+namespace DAO.Model
 {
     using System;
     using System.Collections.Generic;
@@ -6,18 +6,15 @@ namespace tour_du_lich.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class tour_diadiem
+    public partial class tour_loai
     {
         [Key]
-        public int dd_id { get; set; }
+        public int loai_id { get; set; }
 
         [Required]
-        public string dd_thanhpho { get; set; }
+        public string loai_ten { get; set; }
 
         [Required]
-        public string dd_ten { get; set; }
-
-        [Required]
-        public string dd_mota { get; set; }
+        public string loai_mota { get; set; }
     }
 }

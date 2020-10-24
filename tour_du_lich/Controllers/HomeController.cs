@@ -1,16 +1,20 @@
-﻿using System;
+﻿using DAO.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using tour_du_lich.Models;
+
 
 namespace tour_du_lich.Controllers
 {
+    
     public class HomeController : Controller
     {
+        db dbcontext = new db();
         public ActionResult Index()
         {
+            List<tour> l = dbcontext.tours.ToList();
             return View();
         }
 
