@@ -14,7 +14,7 @@ namespace DAO.DoanKhach
 
         public List<DoanKhachViewModel> findAll()
         {
-            List<DoanKhachViewModel> data = (from dk in dbContext.tour_doan
+            var data = (from dk in dbContext.tour_doan
                         join t in dbContext.tours on dk.tour_id equals t.tour_id
                         join cp in dbContext.tour_chiphi on dk.doan_id equals cp.doan_id
 
@@ -28,9 +28,9 @@ namespace DAO.DoanKhach
                         ).ToList();
             data.ForEach(m =>
             {
-                Dictionary<String, Object> temp = getNhanVienAndKhachHang(m.doanKhach.doan_id);
-                m.listKH = (List<tour_khachhang>)temp["kh"];
-                m.listNV = (List<tour_nhanvien>)temp["nv"];
+            Dictionary<String, Object> temp = getNhanVienAndKhachHang(m.doanKhach.doan_id);
+            m.listKH = ((List<tour_khachhang>)temp["kh"]).Count();
+            m.listNV = ((List<tour_nhanvien>)temp["nv"]).Count() ;
             });
             
        
