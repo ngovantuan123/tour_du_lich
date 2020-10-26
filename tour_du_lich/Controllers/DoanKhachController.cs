@@ -1,5 +1,6 @@
 ﻿using DAO.DoanKhach;
 using DAO.Model;
+using DAO.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,11 +11,11 @@ namespace tour_du_lich.Controllers
 {
     public class DoanKhachController : Controller
     {
-        DoanKhachDAO doanKhachDAO = new DoanKhachDAO();
+        DoanKhachModel doanKhachModel = new DoanKhachModel();
         // GET: DoanKhach
         public ActionResult Index()
         {
-           List<tour_doan> tour_Doans =  doanKhachDAO.findAllDoan();
+           List<DoanKhachViewModel> tour_Doans = doanKhachModel.findAll();
             return View();
         }
     }
