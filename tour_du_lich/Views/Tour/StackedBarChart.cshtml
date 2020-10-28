@@ -1,0 +1,75 @@
+﻿<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+<figure class="highcharts-figure">
+    <div id="container"></div>
+    <p class="highcharts-description">
+        Chart showing stacked horizontal bars. This type of visualization is
+        great for comparing data that accumulates up to a sum.
+    </p>
+</figure>
+<script>
+
+    $(document).ready(function () {
+        // gọi JSON
+        $.getJSON("/Tour/getDataChart1", function (data) {
+
+            // create list
+            var names = [];
+            var counts = [];
+            for (var i = 0 ; i < data.length ; i++) {
+                names.push(data[i].name);
+                counts.push(data[i].count);
+            }
+
+            // gọi chart
+            Highcharts.chart('container', {
+                chart: {
+                    type: 'bar'
+                },
+                title: {
+                    text: 'Stacked bar chart'
+                },
+                xAxis: {
+                    categories: names
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Tổng số Tour'
+                    }
+                },
+                legend: {
+                    reversed: true
+                },
+                plotOptions: {
+                    series: {
+                        stacking: 'normal'
+                    }
+                },
+                series: [{
+                    name: 'Số lượng',
+                    data: counts
+                }
+                /*
+                ,
+                {
+                    name: 'Jane',
+                    data: counts
+                }, {
+                    name: 'Joe',
+                    data: [3, 4, 4, 2, 5]
+                }
+                */
+                ]
+            });
+            // end
+
+        });
+
+
+
+    })
+</script>
