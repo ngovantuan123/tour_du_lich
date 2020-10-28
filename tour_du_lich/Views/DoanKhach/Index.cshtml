@@ -102,6 +102,12 @@
                     },
                     { "data": "listKH", "name": "kh", "autoWidth": true },
                     { "data": "listNV", "name": "nv", "autoWidth": true },
+                    {
+                        "render": function (data, type, full, meta) { return '<a class="btn btn-info" href="/DoanKhach/Edit/' + full.doanKhach.doan_id + '">Edit</a><a class="btn btn-info" href="/DoanKhach/detail/' + full.doanKhach.doan_id + '">Chi tiết</a>'; }
+                    },
+                  
+                        
+
                     
 
                 ]

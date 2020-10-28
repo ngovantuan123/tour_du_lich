@@ -250,6 +250,9 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Tour\Index.cshtml" />
     <Content Include="Views\DoanKhach\Index.cshtml" />
+    <Content Include="Views\DoanKhach\add.cshtml" />
+    <Content Include="Views\DoanKhach\detail.cshtml" />
+    <Content Include="Views\DoanKhach\edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

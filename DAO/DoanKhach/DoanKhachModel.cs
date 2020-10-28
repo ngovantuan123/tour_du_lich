@@ -12,7 +12,7 @@ namespace DAO.DoanKhach
     {
         private db dbContext = new db();
 
-        public List<DoanKhachViewModel> findAll()
+        public IQueryable<DoanKhachViewModel> findAll()
         {
             var data = (from dk in dbContext.tour_doan
                         join t in dbContext.tours on dk.tour_id equals t.tour_id
@@ -36,7 +36,7 @@ namespace DAO.DoanKhach
        
          
 
-            return data;
+            return data.AsQueryable<DoanKhachViewModel>();
         }
         public Dictionary<String,Object> getNhanVienAndKhachHang(int idDoan)
         {

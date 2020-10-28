@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Linq.Dynamic;
 
 namespace tour_du_lich.Controllers
 {
@@ -45,12 +46,12 @@ namespace tour_du_lich.Controllers
                 //Sorting    
                 if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
                 {
-                    //data = data..OrderBy(sortColumn + " " + sortColumnDir);
+                    data = data.OrderBy(sortColumn + " " + sortColumnDir);
                 }
                 //Search    
                 if (!string.IsNullOrEmpty(searchValue))
                 {
-                    data = data.Where(m => m.doanKhach.doan_name.Contains(searchValue)).ToList();
+                    data = data.Where(m => m.doanKhach.doan_name.Contains(searchValue));
                 }
 
 
@@ -72,6 +73,19 @@ namespace tour_du_lich.Controllers
                 throw;
             }
             // return View();
+        }
+        public ActionResult add()
+        {
+            var data = new DoanKhachViewModel();
+            return View();
+        }
+        public ActionResult edit()
+        {
+            return View();
+        }
+        public ActionResult detail(int id)
+        {
+            return View();
         }
     }
 }
