@@ -14,6 +14,7 @@ namespace DAO.ViewModel
         public int  listKH { get; set; }
         public int listNV { get; set; }
         public tour_chiphi chiPhi { get; set; }
+        public List<tour> listTour { get; set; }
 
     }
 }

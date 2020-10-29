@@ -77,7 +77,23 @@ namespace tour_du_lich.Controllers
         public ActionResult add()
         {
             var data = new DoanKhachViewModel();
-            return View();
+            data.listTour = DoanKhachModel.getAllTour();
+            return View(data);
+        }
+        [HttpPost]
+        public ActionResult add(DoanKhachViewModel doanKhachViewModel, FormCollection fc)
+        {
+            var tourId = fc["tour"];
+            doanKhachViewModel.doanKhach.tour_id = Convert.ToInt32(tourId);
+            try
+            {
+                tour_doan tour_Doan= doanKhachModel.add(doanKhachViewModel.doanKhach);
+                return RedirectToAction("Index");
+            }
+            catch (Exception e)
+            {
+                return View(doanKhachViewModel);
+            }
         }
         public ActionResult edit()
         {

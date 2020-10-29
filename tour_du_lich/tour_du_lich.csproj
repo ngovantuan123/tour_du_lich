@@ -215,6 +215,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\chosen\component-chosen.min.css" />
     <Content Include="Content\DateFormat\date.format.js" />
     <Content Include="database\createdb.txt" />
     <Content Include="favicon.ico" />
