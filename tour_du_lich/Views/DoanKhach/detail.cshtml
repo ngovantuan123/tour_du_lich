@@ -1,7 +1,235 @@
 ﻿
 @{
-    ViewBag.Title = "detail";
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>detail</h2>
 
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Chi tiết đoàn khách</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+
+    <link href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/responsive/2.1.1/css/responsive.bootstrap.min.css" rel="stylesheet" />
+    <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.min.js "></script>
+    <script src="~/Content/DateFormat/date.format.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700">
+    <link rel="stylesheet" href="~/Content/detail/assets/fonts/ionicons.min.css">
+    <link rel="stylesheet" href="~/Content/chosen/component-chosen.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.min.css">
+    
+</head>
+<body>
+    <div class="container">
+        <br />
+        <div style="width:90%; margin:0 auto;">
+            <h2 class="font-weight-bold text-primary">Thông tin đoàn Khách </h2>
+            <br/>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item active">
+                        <a href="#khachhang" class="nav-link active" role="tab" data-toggle="tab">Danh sách khách hàng</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="#nhanvien" class="nav-link" role="tab" data-toggle="tab" id="loadnv">Danh sách nhân viên</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane fade in active" id="khachhang">
+                        <br />
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#themkh">Thêm khách hàng</button>
+
+                        <!-- Modal: modalCart -->
+                        <div class="modal fade" id="themkh" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                             aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <!--Header-->
+                                    <div class="modal-header">
+                                        <h4 class="modal-title" id="myModalLabel">Thêm khách hàng</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">×</span>
+                                        </button>
+                                    </div>
+                                    <!--Body-->
+                                    <div class="modal-body">
+
+                                    </div>
+                                    <!--Footer-->
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Thoát</button>
+                                        <button class="btn btn-primary">Add</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <br />
+                        <table id="demoGrid" class="table table-striped table-bordered dt-responsive nowrap" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Tên Khách Hàng</th>
+                                    <th>Số điện thoại</th>
+                                    <th>Ngày Sinh</th>
+                                    <th>Email</th>
+                                    <th>CMNN</th>
+                                    <th>Thao tác</th>
+                                </tr>
+                            </thead>
+                        </table>
+
+
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="nhanvien">
+                        <br />
+                        @using (Html.BeginForm("DoanKhach", "", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                            { 
+                    <div class="form-group">
+                        <div class="form-row">
+                            <select id="single" name="tour" class="form-control form-control-chosen" data-placeholder="Chọn nhân viên" required="required">
+                                <option></option>
+                                <option>1</option>
+                            </select>                           
+                            <div class="form-group">
+                                <div class="form-row">
+                                    <div class="col text-center"><button class="btn btn-primary" id="btnsubmit" type="submit">Thêm</button></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        }                            
+                            <br />
+                            <br />
+                            <table id="demoGridnv" class="table table-striped table-bordered dt-responsive nowrap" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Tên nhân viên</th>
+                                        <th>Số điện thoại</th>
+                                        <th>Ngày Sinh</th>
+                                        <th>Email</th>
+                                        <th>Vai trò</th>
+                                        <th>Thao tác</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    
+    
+    <script>
+        // display date
+        function formatStringDate(date) {
+
+                            var dateObj = new Date(parseInt(date.substr(6)));
+                            return dateObj.format("dd/mm/yyyy");
+                        };
+
+                        // display format current VND
+                        function formatCurrentVND(number) {
+
+                            return number.toLocaleString('vi-VN', { currency: 'VND', style: 'currency' });
+                        }
+        $(document).ready(function () {
+                            var params = new window.URLSearchParams(window.location.search);
+                            var idTour = params.get('id');
+                            var url = "/DoanKhach/loadDataTableDSKH?id=" + idTour;
+                            var urlnv = "/DoanKhach/loadDataTableDSNV?id=" + idTour;
+            // tạo bảng
+            $("#demoGrid").DataTable({
+
+                                "processing": true, // for show progress bar
+                "serverSide": true, // for process server side
+                "filter": true, // this is for disable filter (search box)
+                "orderMulti": false, // for disable multiple column at once
+                "pageLength": 5,
+
+
+                "ajax": {
+                                    "url": url,
+                    "type": "POST",
+                    "datatype": "json",
+                },
+                columnDefs: [
+                    //{ className: 'text-right', targets: [0, 1, 2,3, 4] },
+                    //{ className: 'text-center', targets: [0,1,2,3,4,5,6,7] }
+
+
+                ],
+                 "columns": [
+                     { "data": "kh_id", "name": "kh_id", "autoWidth": true },
+                     { "data": "kh_ten", "name": "kh_ten", "autoWidth": true },
+                     { "data": "kh_sdt", "name": "kh_sdt", "autoWidth": true },
+                     {
+                                    "data": "kh_ngaysinh", "name": "kh_ngaysinh", "autoWidth": true,
+                         "render": function (data) { return formatStringDate(data); }},
+                     { "data": "kh_email", "name": "kh_email", "autoWidth": true },
+                     { "data": "kh_cmnd", "name": "kh_cmnd", "autoWidth": true },
+                     {
+                                    "render": function (data, type, full, meta) { return '<a class="btn btn-info" href="id=' + full.kh_id + '">xóa</a>';}
+                                },
+                 ]
+            });
+
+                            loadkh(idTour,urlnv);
+
+                        });
+        function loadkh(idTour,urlnv) {
+            @*var params = new window.URLSearchParams(window.location.search);
+            var idTour = pams.get('id');
+            var url = "/DoanKhach/loadDataTableDSNV?id=" + idTour;*@
+            // tạo bảng
+            $("#demoGridnv").DataTable({
+
+                "processing": true, // for show progress bar
+                "serverSide": true, // for process server side
+                "filter": true, // this is for disable filter (search box)
+                "orderMulti": false, // for disable multiple column at once
+                "pageLength": 5,
+
+
+                "ajax": {
+                    "url": urlnv,
+                    "type": "POST",
+                    "datatype": "json",
+                },
+                columnDefs: [
+                    //{ className: 'text-right', targets: [0, 1, 2,3, 4] },
+                    //{ className: 'text-center', targets: [0,1,2,3,4,5,6,7] }
+
+
+                ],
+                "columns": [
+                    { "data": "nv_id", "name": "nv_id", "autoWidth": true },
+                    { "data": "nv_ten", "name": "nv_ten", "autoWidth": true },
+                    { "data": "nv_sdt", "name": "nv_sdt", "autoWidth": true },
+                    {
+                        "data": "nv_ngaysinh", "name": "nv_ngaysinh", "autoWidth": true,
+                        "render": function (data) { return formatStringDate(data); }
+                    },
+                    { "data": "nv_email", "name": "nv_email", "autoWidth": true },
+                    { "data": "nv_nhiemvu", "name": "nv_nhiemvu", "autoWidth": true },
+                    {
+                    "render": function (data, type, full, meta) { return '<a class="btn btn-info" href="id=' + full.nv_id + '">xóa</a>'; }
+                    }
+                ]
+            });
+        }
+    </script>
+</body>
+
+</html>  

@@ -93,5 +93,29 @@ namespace DAO.DoanKhach
             dbContext.SaveChanges();
             return t;
         }
+        public void edit(tour_doan doan)
+        {
+            var t = dbContext.tour_doan.Where(m => m.doan_id == doan.doan_id).ToList();
+            foreach (tour_doan d in t)
+            {
+                d.doan_name = doan.doan_name;
+                d.doan_ngaydi = doan.doan_ngaydi;
+                d.doan_ngayve = doan.doan_ngayve;
+                d.doan_chitietchuongtrinh = doan.doan_chitietchuongtrinh;
+                d.tour_id = doan.tour_id;
+            }
+            dbContext.SaveChanges();
+        }
+
+        public tour_doan getById(int id)
+        {
+            return dbContext.tour_doan.Where(m => m.doan_id == id).FirstOrDefault();
+
+        }
+
+        public void addKhachHangVaoDoanKhach(DoanKhachViewModel doanKhachViewModel)
+        {
+
+        }
     }
 }
