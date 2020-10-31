@@ -124,6 +124,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DoanKhach\DoanKhachDAO.cs" />
     <Compile Include="Model\db.cs" />
     <Compile Include="Model\sysdiagram.cs" />
     <Compile Include="Model\tour.cs" />
@@ -148,6 +149,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DoanKhach\" />
+    <Folder Include="Tour\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
