@@ -260,6 +260,7 @@
     <Content Include="Views\DoanKhach\add.cshtml" />
     <Content Include="Views\DoanKhach\detail.cshtml" />
     <Content Include="Views\DoanKhach\edit.cshtml" />
+    <Content Include="Views\Tour\add.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

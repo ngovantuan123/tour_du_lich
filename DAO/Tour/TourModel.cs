@@ -41,11 +41,52 @@ namespace DAO.Tour
             return lstdata;
 
         }
+        public List<tour_diadiem> getlistDiadiem()
+        {
+
+
+            var lstdata = _context.tour_diadiem.ToList();
+
+            lstdata = lstdata.Distinct().ToList();
+
+
+            return lstdata;
+
+        }
+        public List<String> getlistThanhpho()
+        {
+
+
+            List<String> s = new List<String>();
+            foreach (var item in getlistDiadiem())
+            {
+                s.Add(item.dd_thanhpho);
+            }
 
           
-        
 
-    
+
+            return s.Distinct().ToList();
+
+        }
+        public List<tour_diadiem> getlistDiadiemByThanhPho(String thanhpho)
+        {
+
+            var lstdata = _context.tour_diadiem.Where(d => d.dd_thanhpho == thanhpho).ToList();
+               
+          
+
+
+
+
+            return lstdata;
+
+        }
+
+
+
+
+
 
 
     }

@@ -22,7 +22,18 @@ namespace tour_du_lich.Controllers
         {
             return View();
         }
-
+        public ActionResult add()
+        {
+            var data = new TourViewModel();
+            data.list_diadiem = tour.getlistDiadiem();
+            data.list_thanhpho = tour.getlistThanhpho();
+            return View(data);
+        }
+        public ActionResult LoadDiadiem(String thanhpho)
+        {
+            var query = tour.getlistDiadiemByThanhPho(thanhpho);
+            return Json(query, JsonRequestBehavior.AllowGet);
+        }
         public ActionResult LoadData()
         {
            

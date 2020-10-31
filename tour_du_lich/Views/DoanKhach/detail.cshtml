@@ -11,7 +11,7 @@
     <meta name="viewport" content="width=device-width" />
     <title>Chi tiết đoàn khách</title>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+   
 
     <link href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdn.datatables.net/responsive/2.1.1/css/responsive.bootstrap.min.css" rel="stylesheet" />
@@ -43,8 +43,8 @@
                     </li>
                 </ul>
 
-                <div class="tab-content">
-                    <div role="tabpanel" class="tab-pane fade in active" id="khachhang">
+                <div class="tab-content active">
+                    <div role="tabpanel" class="tab-pane fade in active show" id="khachhang">
                         <br />
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#themkh">Thêm khách hàng</button>
 
@@ -90,7 +90,7 @@
 
 
                     </div>
-                    <div role="tabpanel" class="tab-pane fade" id="nhanvien">
+                    <div role="tabpanel" class="tab-pane fade"  id="nhanvien">
                         <br />
                         @using (Html.BeginForm("DoanKhach", "", FormMethod.Post, new { enctype = "multipart/form-data" }))
                             { 
