@@ -8,13 +8,11 @@ using System.Web.Mvc;
 
 namespace tour_du_lich.Controllers
 {
-    
     public class HomeController : Controller
     {
         db dbcontext = new db();
         public ActionResult Index()
         {
-            List<tour> l = dbcontext.tours.ToList();
             return View();
         }
 
