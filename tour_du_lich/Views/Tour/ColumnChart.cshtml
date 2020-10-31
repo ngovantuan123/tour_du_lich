@@ -1,0 +1,121 @@
+﻿<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/data.js"></script>
+<script src="https://code.highcharts.com/modules/drilldown.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+<figure class="highcharts-figure">
+    <div id="container1"></div>
+    <p class="highcharts-description">
+        Chart showing browser market shares. Clicking on individual columns
+        brings up more detailed data. This chart makes use of the drilldown
+        feature in Highcharts to easily switch between datasets.
+    </p>
+</figure>
+
+
+<script>
+
+    $(document).ready(function () {
+        // gọi JSON
+        $.getJSON("/Tour/getDataChart1", function (data) {
+
+            // create list
+            var names = [];
+            var counts = [];
+            for (var i = 0 ; i < data.length ; i++) {
+                names.push(data[i].name);
+                counts.push(data[i].count);
+            }
+
+            // gọi chart
+            // Create the chart
+            Highcharts.chart('container1', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: 'Số lượng tour theo loại'
+                },
+                subtitle: {
+                    text: 'Click the columns to view versions. Source: <a href="http://statcounter.com" target="_blank">statcounter.com</a>'
+                },
+                accessibility: {
+                    announceNewData: {
+                        enabled: true
+                    }
+                },
+                xAxis: {
+                    categories: names
+                },
+                yAxis: {
+                    title: {
+                        text: 'Total percent market share'
+                    }
+
+                },
+                legend: {
+                    enabled: false
+                },
+                plotOptions: {
+                    series: {
+                        borderWidth: 0,
+                        dataLabels: {
+                            enabled: true
+                            //format: '{point.y:.1f}%'
+                        }
+                    }
+                },
+
+                tooltip: {
+                    headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                    pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
+                },
+                series: [{
+                    name: 'Số lượng',
+                    colorByPoint: true,
+                    data: counts // data
+                },
+                /*
+                series: [
+                    {
+                        
+                        name: "Số lượng Tour",
+                        colorByPoint: true,
+                        data: [
+                            /*
+                            {
+                                name: names,
+                                y: counts
+
+                            }
+                          
+                            
+                            {
+                                name: "Firefox",
+                                y: 10,
+                                //drilldown: "Firefox"
+                            },
+                            {
+                                name: "Internet Explorer",
+                                y: 7,
+                                //drilldown: "Internet Explorer"
+                            }
+                              
+                        ]
+                       
+                    }
+                     */
+                ]
+               
+                
+            });
+            //end
+
+        });
+
+
+
+    })
+</script>
