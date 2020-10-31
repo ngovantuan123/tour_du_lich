@@ -26,8 +26,8 @@
     <div class="container">
         <br />
         <div style="width:90%; margin:0 auto;">
-            <h2 class="font-weight-bold text-primary">Danh sách đoàn </h2>
-            <a class="btn btn-info" href="">Thêm mới</a>
+            <h2 class="font-weight-bold text-primary">Danh sách đoàn khách </h2>
+            <a class="btn btn-info" href="/DoanKhach/add">Thêm mới</a>
 
             <br />
             <br />
@@ -102,6 +102,12 @@
                     },
                     { "data": "listKH", "name": "kh", "autoWidth": true },
                     { "data": "listNV", "name": "nv", "autoWidth": true },
+                    {
+                        "render": function (data, type, full, meta) { return '<a class="btn btn-info" href="/DoanKhach/Edit?id=' + full.doanKhach.doan_id + '">Edit</a><a class="btn btn-info" href="/DoanKhach/detail?id=' + full.doanKhach.doan_id + '">Chi tiết</a>'; }
+                    },
+                  
+                        
+
                     
 
                 ]

@@ -215,6 +215,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\chosen\component-chosen.css" />
     <Content Include="Content\DateFormat\date.format.js" />
     <Content Include="database\createdb.txt" />
     <Content Include="favicon.ico" />
@@ -256,6 +257,9 @@
     <Content Include="Views\Tour\StackedBarChart.cshtml" />
     <Content Include="Views\Tour\ColumnChart.cshtml" />
     <Content Include="Views\DoanKhach\Index.cshtml" />
+    <Content Include="Views\DoanKhach\add.cshtml" />
+    <Content Include="Views\DoanKhach\detail.cshtml" />
+    <Content Include="Views\DoanKhach\edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

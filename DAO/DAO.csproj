@@ -124,7 +124,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DoanKhach\DoanKhachDAO.cs" />
+    <Compile Include="DoanKhach\DoanKhachModel.cs" />
     <Compile Include="Model\db.cs" />
     <Compile Include="Model\sysdiagram.cs" />
     <Compile Include="Model\tour.cs" />
@@ -140,6 +140,7 @@
     <Compile Include="Model\tour_nhanvien.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tour\TourModel.cs" />
+    <Compile Include="ViewModel\DoanKhachViewModel.cs" />
     <Compile Include="ViewModel\Chart1ViewModel.cs" />
     <Compile Include="ViewModel\TourViewModel.cs" />
   </ItemGroup>
@@ -147,9 +148,6 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DoanKhach\" />
-    <Folder Include="Tour\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

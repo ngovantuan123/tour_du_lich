@@ -1,0 +1,111 @@
+﻿@model DAO.ViewModel.DoanKhachViewModel
+@{
+    ViewBag.Title = "add";
+}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Chỉnh sửa đoàn khách</title>
+    <link rel="stylesheet" href="~/Content/detail/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700">
+    <link rel="stylesheet" href="~/Content/detail/assets/fonts/ionicons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.6.1/css/pikaday.min.css">
+    <link rel="stylesheet" href="~/Content/chosen/component-chosen.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <main class="page hire-me-page">
+            <section class="portfolio-block hire-me">
+                <div class="container">
+                    <div class="heading">
+                    </div>
+                    @using (Html.BeginForm("edit", "DoanKhach", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        <div class="form-group">
+                            <div class="form-row">
+                                <div class="col"><label class="col-form-label">Tên đoàn:</label></div>
+                                @Html.TextBoxFor(model => model.doanKhach.doan_name, new { @class = "form-control", required = "required" })
+                                @Html.TextBoxFor(model => model.doanKhach.doan_id, new { @class = "form-control", type = "hidden", required = "required" })
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-row">
+                                <div class="col"><label class="col-form-label">Ngày đi:&nbsp;</label></div>
+                                @Html.TextBoxFor(model => model.doanKhach.doan_ngaydi, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-row">
+                                <div class="col"><label class="col-form-label">Ngày về:&nbsp;</label></div>
+                                @Html.TextBoxFor(model => model.doanKhach.doan_ngayve, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-row">
+                                <div class="col"><label class="col-form-label">Chi tiết chương trình:</label></div>
+                                @Html.TextAreaFor(model => model.doanKhach.doan_chitietchuongtrinh, new { @class = "form-control", required = "required" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-row">
+                                <div class="col"><label class="col-form-label">Tour:</label></div>
+                                <select id="single" name="tour" class="form-control form-control-chosen" data-placeholder="Please select tour" required="required">
+                                    <option></option>
+                                    @foreach (var record in Model.listTour)
+                                    {
+                                        if (Model.doanKhach.tour_id == record.tour_id)
+                                        {
+                                            <option value="@record.tour_id" selected="selected">@record.tour_ten</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@record.tour_id">@record.tour_ten</option>
+                                        }
+                                    }
+                                </select>
+                                <small id="errortour" class="text-danger">
+                                </small>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-row">
+                                <div class="col text-center"><button class="btn btn-primary" id="btnsubmit" type="submit">SAVE</button></div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </section>
+        </main>
+        </div>
+        <script src="~/Content/detail/assets/js/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.6/chosen.jquery.min.js"></script>
+        <script src="~/Content/detail/assets/bootstrap/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.6.1/pikaday.min.js"></script>
+        <script src="~/Content/detail/assets/js/theme.js"></script>
+        <script>
+            $('.form-control-chosen').chosen({
+
+            });
+            $(document).ready(function () {
+                $("#btnsubmit").click(function () {
+                    var r = $("#single :selected").val();
+                    if (r == "") {
+                        $("#errortour").text("chon tour");
+                    }
+                });
+
+            });
+
+        </script>
+</body>
+
+</html>
+
+
