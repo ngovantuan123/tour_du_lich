@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Linq.Dynamic;
+using DAO.ViewModel;
 
 namespace tour_du_lich.Controllers
 {
@@ -83,6 +84,16 @@ namespace tour_du_lich.Controllers
                 throw;
             }
             // return View();
+        }
+
+        // chart1
+        public ActionResult getDataChart1()
+        {
+            var query = _context.Database.SqlQuery<Chart1ViewModel>("select l.loai_ten as name, count(t.loai_id) as count from tours t join tour_loai l on t.loai_id = l.loai_id group by l.loai_ten").ToList();
+            
+
+            return Json(query, JsonRequestBehavior.AllowGet);
+
         }
     }
 }
