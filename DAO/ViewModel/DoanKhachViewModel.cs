@@ -1,6 +1,7 @@
 ﻿using DAO.Model;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +18,9 @@ namespace DAO.ViewModel
         public int listNV { get; set; }
         public tour_chiphi chiPhi { get; set; }
         public List<tour> listTour { get; set; }
+        public tour_nhanvien nv { get; set; }
+        public tour_khachhang kh { get; set; }
+        public List<tour_nhanvien> nhanVienChuaCoTrongDoan { get; set; } 
 
     }
 }

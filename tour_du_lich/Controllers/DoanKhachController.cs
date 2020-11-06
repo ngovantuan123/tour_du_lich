@@ -89,6 +89,7 @@ namespace tour_du_lich.Controllers
             }
             catch (Exception e)
             {
+                doanKhachViewModel.listTour = DoanKhachModel.getAllTour();
                 return View(doanKhachViewModel);
             }
         }
@@ -122,6 +123,7 @@ namespace tour_du_lich.Controllers
            doanKhachViewModel.doanKhach = doanKhachModel.getById(id);
            doanKhachViewModel.khachHangs = ((List < tour_khachhang >) kh_nv["kh"]);
            doanKhachViewModel.nhanViens = ((List < tour_nhanvien >) kh_nv["nv"]);
+            doanKhachViewModel.nhanVienChuaCoTrongDoan = doanKhachModel.getNhanVienChuaCoTrongDoanKhach(id);
            return View(doanKhachViewModel);
         }
         public ActionResult loadDataTableDSKH()
@@ -224,5 +226,25 @@ namespace tour_du_lich.Controllers
                 throw;
             }
         }
+        [HttpPost]
+        public ActionResult themKhachHangVoDoanKhach(DoanKhachViewModel doanKhachViewModel)
+        {
+            doanKhachModel.addKhachHangVaoDoanKhach(doanKhachViewModel);
+           return RedirectToAction("/detail?id="+doanKhachViewModel.doanKhach.doan_id);
+        }
+        [HttpPost]
+        public JsonResult themNhanVienVoDoanKhach(String idNv,String idDoan)
+        {
+            try
+            {
+                //doanKhachModel.themNhanVienVoDoanKhach(idNv, idDoan);
+                return Json(new { Success = true }, JsonRequestBehavior.AllowGet);
+
+            }catch(Exception e)
+            {
+                return Json(new { Success = false }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
     }
 }

@@ -25,28 +25,28 @@ namespace DAO.DoanKhach
                         ).ToList();
             data.ForEach(m =>
             {
-            Dictionary<String, Object> temp = getNhanVienAndKhachHang(m.doanKhach.doan_id);
-            m.listKH = ((List<tour_khachhang>)temp["kh"]).Count();
-            m.listNV = ((List<tour_nhanvien>)temp["nv"]).Count() ;
+                Dictionary<String, Object> temp = getNhanVienAndKhachHang(m.doanKhach.doan_id);
+                m.listKH = ((List<tour_khachhang>)temp["kh"]).Count();
+                m.listNV = ((List<tour_nhanvien>)temp["nv"]).Count();
             });
-            
-       
-         
+
+
+
 
             return data.AsQueryable<DoanKhachViewModel>();
         }
-        public Dictionary<String,Object> getNhanVienAndKhachHang(int idDoan)
+        public Dictionary<String, Object> getNhanVienAndKhachHang(int idDoan)
         {
-            Dictionary<String,Object> result = new Dictionary<string, object>();
+            Dictionary<String, Object> result = new Dictionary<string, object>();
             //get nguoi di
             tour_nguoidi nguoidi = dbContext.tour_nguoidi.Where(i => i.doan_id == idDoan).FirstOrDefault();
             List<tour_nhanvien> listNV = new List<tour_nhanvien>();
-            if (nguoidi!=null && nguoidi.nguoidi_dsnhanvien != null)
+            if (nguoidi != null && nguoidi.nguoidi_dsnhanvien != null && nguoidi.nguoidi_dsnhanvien != " " )
             {
                 String[] ids = nguoidi.nguoidi_dsnhanvien.Split(',');
                 if (ids.Length != 0)
                 {
-                    
+
                     for (int i = 0; i < ids.Length; i++)
                     {
                         int id = Convert.ToInt32(ids[i]);
@@ -56,18 +56,18 @@ namespace DAO.DoanKhach
                             listNV.Add(t);
                         }
                     }
-                   
+
                 }
             }
             result.Add("nv", listNV);
             //get kh
             List<tour_khachhang> listkh = new List<tour_khachhang>();
-            if (nguoidi != null && nguoidi.nguoidi_dskhach != null)
+            if (nguoidi != null && nguoidi.nguoidi_dskhach != null &&  nguoidi.nguoidi_dskhach != " ")
             {
                 String[] idskh = nguoidi.nguoidi_dskhach.Split(',');
                 if (idskh.Length != 0)
                 {
-                    
+
                     for (int i = 0; i < idskh.Length; i++)
                     {
                         int id = Convert.ToInt32(idskh[i]);
@@ -77,7 +77,7 @@ namespace DAO.DoanKhach
                             listkh.Add(t);
                         }
                     }
-                    
+
                 }
             }
             result.Add("kh", listkh);
@@ -90,6 +90,13 @@ namespace DAO.DoanKhach
         public tour_doan add(tour_doan doan)
         {
             var t = dbContext.tour_doan.Add(doan);
+            dbContext.SaveChanges();
+            tour_nguoidi nd = new tour_nguoidi();
+            
+            nd.doan_id = t.doan_id;
+            nd.nguoidi_dskhach = " ";
+            nd.nguoidi_dsnhanvien = " ";
+            dbContext.tour_nguoidi.Add(nd);
             dbContext.SaveChanges();
             return t;
         }
@@ -113,8 +120,71 @@ namespace DAO.DoanKhach
 
         }
 
-        public void addKhachHangVaoDoanKhach(DoanKhachViewModel doanKhachViewModel)
+        public bool addKhachHangVaoDoanKhach(DoanKhachViewModel doanKhachViewModel)
         {
+            try
+            {
+
+                var tmp_kh = dbContext.tour_khachhang.Add(doanKhachViewModel.kh);
+                dbContext.SaveChanges();
+                var temp = dbContext.tour_nguoidi.Where(m => m.doan_id == doanKhachViewModel.doanKhach.doan_id).ToList();
+                foreach (tour_nguoidi nd in temp)
+                    if (nd.nguoidi_dskhach.Equals(" "))
+                    {
+                        nd.nguoidi_dskhach = Convert.ToString(tmp_kh.kh_id);
+                    }
+                    else
+                    {
+                        nd.nguoidi_dskhach = nd.nguoidi_dskhach + "," + tmp_kh.kh_id;
+                    }
+                dbContext.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+        public List<tour_nhanvien> getNhanVienChuaCoTrongDoanKhach(int idDoan)
+        {
+            Dictionary<String, Object> temp = getNhanVienAndKhachHang(idDoan);
+            List<tour_nhanvien> nvs = ((List<tour_nhanvien>)temp["nv"]);
+            List<tour_nhanvien> kq = new List<tour_nhanvien>();
+            if (nvs.Count() == 0)
+            {
+
+                kq = dbContext.tour_nhanvien.ToList();
+            }
+            if (nvs.Count > 0)
+            {
+                kq = dbContext.tour_nhanvien.ToList();
+                nvs.ForEach(m =>
+                {
+                    if (kq.Contains(m))
+                    {
+                        kq.Remove(m);
+                    }
+                });
+            }
+            return kq;
+        }
+
+        public void themNhanVienVoDoanKhach(string idNv, string idDoan)
+        {
+             int idd =Convert.ToInt32(idDoan);
+            var nguoidi = dbContext.tour_nguoidi.Where(m => m.doan_id == idd).ToList();
+            foreach (tour_nguoidi nd in nguoidi)
+            {
+                if (nd.nguoidi_dsnhanvien.Equals(" "))
+                {
+                    nd.nguoidi_dsnhanvien = idNv;
+                }
+                else
+                {
+                    nd.nguoidi_dsnhanvien = nd.nguoidi_dsnhanvien + "," + idNv;
+                }
+            }
+            dbContext.SaveChanges();
 
         }
     }

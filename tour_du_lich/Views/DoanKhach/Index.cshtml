@@ -23,7 +23,6 @@
 
 </head>
 <body>
-    <div class="container">
         <br />
         <div style="width:90%; margin:0 auto;">
             <h2 class="font-weight-bold text-primary">Danh sách đoàn khách </h2>
@@ -48,7 +47,6 @@
                 </thead>
             </table>
         </div>
-    </div>
 
 
     <script>   
@@ -104,7 +102,7 @@
                     { "data": "listNV", "name": "nv", "autoWidth": true },
                     {
                         "render": function (data, type, full, meta) { return '<a class="btn btn-info" href="/DoanKhach/Edit?id=' + full.doanKhach.doan_id + '">Edit</a><a class="btn btn-info" href="/DoanKhach/detail?id=' + full.doanKhach.doan_id + '">Chi tiết</a>'; }
-                    },
+                    }
                   
                         
 
