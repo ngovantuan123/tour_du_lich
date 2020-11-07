@@ -1,0 +1,82 @@
+﻿@model DAO.Model.tour_khachhang
+@{
+    ViewBag.Title = "edit";
+}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Sửa Khách Hàng</title>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.min.css">
+    <script src="~/Content/Dashboard/assets/js/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700">
+    <link rel="stylesheet" href="~/Content/chosen/component-chosen.css">
+
+</head>
+
+<body>
+    <main class="page hire-me-page">
+        <section class="portfolio-block hire-me">
+            <div class="container">
+                <div class="heading">
+                    <h2>Chỉnh Sửa</h2>
+                </div>
+                @using (Html.BeginForm("editKhachHang", "KhachHang", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col"><label class="col-form-label">Tên:</label></div>
+                            @Html.TextBoxFor(model => model.kh_ten, new { @class = "form-control", required = "required" })
+                            @Html.TextBoxFor(model => model.kh_id, new { @class = "form-control", Type = "hidden", required = "required" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col"><label class="col-form-label">SĐT:</label></div>
+                            @Html.TextBoxFor(model => model.kh_sdt, new { @class = "form-control", required = "required" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col"><label class="col-form-label">Ngày Sinh:&nbsp;</label></div>
+                            @Html.TextBoxFor(model => model.kh_ngaysinh, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control", required = "required" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col"><label class="col-form-label">Email:</label></div>
+                            @Html.TextBoxFor(model => model.kh_email, new { @class = "form-control", required = "required" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col"><label class="col-form-label">CMND:</label></div>
+                            @Html.TextBoxFor(model => model.kh_cmnd, new { @class = "form-control", required = "required" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col text-center"><button class="btn btn-primary" id="btnsubmit" type="submit">Save</button></div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </section>
+    </main>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.6/chosen.jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.6.1/pikaday.min.js"></script>
+    <script>
+
+
+    </script>
+</body>
+
+</html>
+
+

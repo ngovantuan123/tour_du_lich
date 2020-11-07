@@ -75,13 +75,16 @@ namespace tour_du_lich.Controllers
         {
             var data = new DoanKhachViewModel();
             data.listTour = DoanKhachModel.getAllTour();
+            data.list_gia =  doanKhachModel.getGiaTour(Convert.ToString(data.listTour.FirstOrDefault().tour_id));
             return View(data);
         }
         [HttpPost]
         public ActionResult add(DoanKhachViewModel doanKhachViewModel, FormCollection fc)
         {
             var tourId = fc["tour"];
+            var giaId = fc["gia"];
             doanKhachViewModel.doanKhach.tour_id = Convert.ToInt32(tourId);
+            doanKhachViewModel.doanKhach.doan_gia_id = Convert.ToInt32(giaId);
             try
             {
                 tour_doan tour_Doan= doanKhachModel.add(doanKhachViewModel.doanKhach);
@@ -99,13 +102,16 @@ namespace tour_du_lich.Controllers
             DoanKhachViewModel doanKhachViewModel = new DoanKhachViewModel();
             doanKhachViewModel.doanKhach = doan;
             doanKhachViewModel.listTour = DoanKhachModel.getAllTour();
+            doanKhachViewModel.list_gia = doanKhachModel.getGiaTour(Convert.ToString(doan.doan_gia_id));
             return View(doanKhachViewModel);
         }
         [HttpPost]
         public ActionResult edit(DoanKhachViewModel doanKhachViewModel , FormCollection fc)
         {
             var tourId = fc["tour"];
+            var gia_Id = fc["gia"];
             doanKhachViewModel.doanKhach.tour_id = Convert.ToInt32(tourId);
+            doanKhachViewModel.doanKhach.doan_gia_id = Convert.ToInt32(gia_Id);
             try
             {
                 doanKhachModel.edit(doanKhachViewModel.doanKhach);
@@ -123,8 +129,9 @@ namespace tour_du_lich.Controllers
            doanKhachViewModel.doanKhach = doanKhachModel.getById(id);
            doanKhachViewModel.khachHangs = ((List < tour_khachhang >) kh_nv["kh"]);
            doanKhachViewModel.nhanViens = ((List < tour_nhanvien >) kh_nv["nv"]);
-            doanKhachViewModel.nhanVienChuaCoTrongDoan = doanKhachModel.getNhanVienChuaCoTrongDoanKhach(id);
-           return View(doanKhachViewModel);
+           doanKhachViewModel.nhanVienChuaCoTrongDoan = doanKhachModel.getNhanVienChuaCoTrongDoanKhach(id);
+            doanKhachViewModel.khachHangChuaCoTrongDoan = doanKhachModel.getKhachHangChuaCoTrongDoanKhach(id);
+            return View(doanKhachViewModel);
         }
         public ActionResult loadDataTableDSKH()
         {
@@ -227,10 +234,18 @@ namespace tour_du_lich.Controllers
             }
         }
         [HttpPost]
-        public ActionResult themKhachHangVoDoanKhach(DoanKhachViewModel doanKhachViewModel)
+        public ActionResult themKhachHangVoDoanKhach(String idKh, String idDoan)
         {
-            doanKhachModel.addKhachHangVaoDoanKhach(doanKhachViewModel);
-           return Redirect("detail?id="+doanKhachViewModel.doanKhach.doan_id);
+            try
+            {
+                doanKhachModel.addKhachHangVaoDoanKhach(idKh, idDoan);
+                return Json(new { Success = true }, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception e)
+            {
+                return Json(new { Success = false }, JsonRequestBehavior.AllowGet);
+            }
         }
         [HttpPost]
         public JsonResult themNhanVienVoDoanKhach(String idNv,String idDoan)
@@ -241,6 +256,20 @@ namespace tour_du_lich.Controllers
                 return Json(new { Success = true }, JsonRequestBehavior.AllowGet);
 
             }catch(Exception e)
+            {
+                return Json(new { Success = false }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        [HttpPost]
+        public JsonResult getGiaTour(String idTour)
+        {
+            try
+            {
+                List<tour_gia>  list_Gia= doanKhachModel.getGiaTour(idTour);
+                return Json(new { Success = true,gias =list_Gia }, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception e)
             {
                 return Json(new { Success = false }, JsonRequestBehavior.AllowGet);
             }

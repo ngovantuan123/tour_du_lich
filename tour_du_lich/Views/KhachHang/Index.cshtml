@@ -11,7 +11,7 @@
     <meta name="viewport" content="width=device-width" />
     <title>ShowGrid</title>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-  
+
 
     <link href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdn.datatables.net/responsive/2.1.1/css/responsive.bootstrap.min.css" rel="stylesheet" />
@@ -23,34 +23,33 @@
 
 </head>
 <body>
+    <br />
+    <div style="width:90%; margin:0 auto;">
+        <h2 class="font-weight-bold text-primary">Danh sách khách hàng </h2>
+        <a class="btn btn-info" href="/KhachHang/addKhachHang">Thêm mới</a>
+
         <br />
-        <div style="width:90%; margin:0 auto;">
-            <h2 class="font-weight-bold text-primary">Danh sách đoàn khách </h2>
-            <a class="btn btn-info" href="/DoanKhach/add">Thêm mới</a>
-
-            <br />
-            <br />
+        <br />
 
 
-            <table id="demoGrid" class="table table-striped table-bordered dt-responsive nowrap" width="100%" cellspacing="0">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Tên Đoàn</th>
-                        <th>Tour</th>
-                        <th>Ngày Đi</th>
-                        <th>Ngày về</th>
-                        <th>Giá</th>
-                        <th>Khách</th>
-                        <th>Nhân viên</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-            </table>
-        </div>
+        <table id="demoGrid" class="table table-striped table-bordered dt-responsive nowrap" width="100%" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Tên</th>
+                    <th>SĐT</th>
+                    <th>Ngày Sinh</th>
+                    <th>Email</th>
+                    <th>CMT</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
 
 
-    <script>   
+    <script>
+
         // display date
         function formatStringDate(date) {
 
@@ -75,7 +74,7 @@
 
 
                 "ajax": {
-                    "url": "/DoanKhach/LoadData",
+                    "url": "/KhachHang/LoadData",
                     "type": "POST",
                     "datatype": "json"
                 },
@@ -88,29 +87,20 @@
 
 
                 "columns": [
-                    { "data": "doanKhach.doan_id", "name": "doanKhach.doan_id", "autoWidth": true },
-                    { "data": "doanKhach.doan_name", "name": "doanKhach.doan_name", "autoWidth": true },
-                    { "data": "tour_doan.tour_ten", "name": "tour_doan.tour_ten", "autoWidth": true },
+                    { "data": "kh_id", "name": "kh_id", "autoWidth": true },
+                    { "data": "kh_ten", "name": "kh_ten", "autoWidth": true },
+                    { "data": "kh_sdt", "name": "kh_sdt", "autoWidth": true },
                     {
-                        "data": "doanKhach.doan_ngaydi", "name": "doanKhach.doan_ngaydi", "autoWidth": true,
+                        "data": "kh_ngaysinh", "name": "kh_ngaysinh", "autoWidth": true,
                         "render": function (data) { return formatStringDate(data); }
                     },
                     {
-                        "data": "doanKhach.doan_ngayve", "name": "doanKhach.doan_ngayve", "autoWidth": true,
-                        "render": function (data) { return formatStringDate(data); }
+                        "data": "kh_email", "name": "kh_email", "autoWidth": true
                     },
-                    { "data": "gia.gia_sotien", "name": "gia.gia_sotien", "autoWidth": true },
-                    
-                    { "data": "listKH", "name": "kh", "autoWidth": true },
-                    { "data": "listNV", "name": "nv", "autoWidth": true },
+                    { "data": "kh_cmnd", "name": "kh_cmnd", "autoWidth": true },
                     {
-                        "render": function (data, type, full, meta) { return '<a class="btn btn-info" href="/DoanKhach/Edit?id=' + full.doanKhach.doan_id + '">Edit</a><a class="btn btn-info" href="/DoanKhach/detail?id=' + full.doanKhach.doan_id + '">Chi tiết</a>'; }
+                        "render": function (data, type, full, meta) { return '<a class="btn btn-info" href="/khachhang/editKhachHang?idKhachhang=' + full.kh_id + '">Chỉnh Sửa</a><a class="btn btn-info" href="/KhachHang/deleteKhachHang?idKhachHang=' + full.kh_id + '">Xóa</a>'; }
                     }
-                  
-                        
-
-                    
-
                 ]
 
             });

@@ -204,6 +204,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\DoanKhachController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\KhachHangController.cs" />
     <Compile Include="Controllers\NhanVienController.cs" />
     <Compile Include="Controllers\TourController.cs" />
     <Compile Include="Global.asax.cs">
@@ -263,6 +264,11 @@
     <Content Include="Views\DoanKhach\edit.cshtml" />
     <Content Include="Views\Tour\add.cshtml" />
     <Content Include="Views\NhanVien\Index.cshtml" />
+    <Content Include="Views\KhachHang\Index.cshtml" />
+    <Content Include="Views\KhachHang\addKhachHang.cshtml" />
+    <Content Include="Views\NhanVien\addNhanVien.cshtml" />
+    <Content Include="Views\NhanVien\editNhanVien.cshtml" />
+    <Content Include="Views\KhachHang\editKhachHang.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
