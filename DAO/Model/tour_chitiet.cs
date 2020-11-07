@@ -11,10 +11,10 @@ namespace DAO.Model
         [Key]
         public int ct_id { get; set; }
 
-        public int tour_id { get; set; }
+        public int? tour_id { get; set; }
 
-        public int dd_id { get; set; }
+        public int? dd_id { get; set; }
 
-        public int ct_thutu { get; set; }
+        public int? ct_thutu { get; set; }
     }
 }

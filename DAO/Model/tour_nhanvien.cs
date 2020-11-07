@@ -11,19 +11,15 @@ namespace DAO.Model
         [Key]
         public int nv_id { get; set; }
 
-        [Required]
         public string nv_ten { get; set; }
 
-        [Required]
         public string nv_sdt { get; set; }
 
         [Column(TypeName = "date")]
-        public DateTime nv_ngaysinh { get; set; }
+        public DateTime? nv_ngaysinh { get; set; }
 
-        [Required]
         public string nv_email { get; set; }
 
-        [Required]
         public string nv_nhiemvu { get; set; }
     }
 }

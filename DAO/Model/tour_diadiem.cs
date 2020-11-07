@@ -11,13 +11,10 @@ namespace DAO.Model
         [Key]
         public int dd_id { get; set; }
 
-        [Required]
         public string dd_thanhpho { get; set; }
 
-        [Required]
         public string dd_ten { get; set; }
 
-        [Required]
         public string dd_mota { get; set; }
     }
 }

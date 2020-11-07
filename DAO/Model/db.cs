@@ -4,6 +4,7 @@ namespace DAO.Model
     using System.Data.Entity;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
+
     public partial class db : DbContext
     {
         public db()
@@ -11,7 +12,6 @@ namespace DAO.Model
         {
         }
 
-        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<tour_chiphi> tour_chiphi { get; set; }
         public virtual DbSet<tour_chitiet> tour_chitiet { get; set; }
         public virtual DbSet<tour_diadiem> tour_diadiem { get; set; }

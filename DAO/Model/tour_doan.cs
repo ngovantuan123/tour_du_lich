@@ -11,18 +11,18 @@ namespace DAO.Model
         [Key]
         public int doan_id { get; set; }
 
-        public int tour_id { get; set; }
+        public int? tour_id { get; set; }
 
-        [Required]
         public string doan_name { get; set; }
 
         [Column(TypeName = "date")]
-        public DateTime doan_ngaydi { get; set; }
+        public DateTime? doan_ngaydi { get; set; }
 
         [Column(TypeName = "date")]
-        public DateTime doan_ngayve { get; set; }
+        public DateTime? doan_ngayve { get; set; }
 
-        [Required]
         public string doan_chitietchuongtrinh { get; set; }
+
+        public int? doan_gia_id { get; set; }
     }
 }

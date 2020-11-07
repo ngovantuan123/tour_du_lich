@@ -11,10 +11,8 @@ namespace DAO.Model
         [Key]
         public int loai_id { get; set; }
 
-        [Required]
         public string loai_ten { get; set; }
 
-        [Required]
         public string loai_mota { get; set; }
     }
 }

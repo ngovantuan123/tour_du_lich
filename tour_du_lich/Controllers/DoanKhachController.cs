@@ -230,14 +230,14 @@ namespace tour_du_lich.Controllers
         public ActionResult themKhachHangVoDoanKhach(DoanKhachViewModel doanKhachViewModel)
         {
             doanKhachModel.addKhachHangVaoDoanKhach(doanKhachViewModel);
-           return RedirectToAction("/detail?id="+doanKhachViewModel.doanKhach.doan_id);
+           return Redirect("detail?id="+doanKhachViewModel.doanKhach.doan_id);
         }
         [HttpPost]
         public JsonResult themNhanVienVoDoanKhach(String idNv,String idDoan)
         {
             try
             {
-                //doanKhachModel.themNhanVienVoDoanKhach(idNv, idDoan);
+                doanKhachModel.themNhanVienVoDoanKhach(idNv, idDoan);
                 return Json(new { Success = true }, JsonRequestBehavior.AllowGet);
 
             }catch(Exception e)

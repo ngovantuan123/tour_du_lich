@@ -126,7 +126,6 @@
   <ItemGroup>
     <Compile Include="DoanKhach\DoanKhachModel.cs" />
     <Compile Include="Model\db.cs" />
-    <Compile Include="Model\sysdiagram.cs" />
     <Compile Include="Model\tour.cs" />
     <Compile Include="Model\tour_chiphi.cs" />
     <Compile Include="Model\tour_chitiet.cs" />

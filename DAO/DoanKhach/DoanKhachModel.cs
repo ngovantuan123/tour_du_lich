@@ -2,7 +2,10 @@
 using DAO.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
+using System.Data.SqlClient;
 using System.Linq;
+using System.Linq.Dynamic;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -28,6 +31,7 @@ namespace DAO.DoanKhach
                 Dictionary<String, Object> temp = getNhanVienAndKhachHang(m.doanKhach.doan_id);
                 m.listKH = ((List<tour_khachhang>)temp["kh"]).Count();
                 m.listNV = ((List<tour_nhanvien>)temp["nv"]).Count();
+                m.gia = dbContext.tour_gia.Where(a => a.gia_id == m.doanKhach.doan_gia_id).FirstOrDefault();
             });
 
 
@@ -89,16 +93,41 @@ namespace DAO.DoanKhach
         }
         public tour_doan add(tour_doan doan)
         {
+            try { 
             var t = dbContext.tour_doan.Add(doan);
             dbContext.SaveChanges();
             tour_nguoidi nd = new tour_nguoidi();
             
             nd.doan_id = t.doan_id;
             nd.nguoidi_dskhach = " ";
-            nd.nguoidi_dsnhanvien = " ";
-            dbContext.tour_nguoidi.Add(nd);
-            dbContext.SaveChanges();
-            return t;
+            nd.nguoidi_dsnhanvien =" ";
+                string strSQL = "INSERT INTO tour_nguoidi ";
+                strSQL += " (doan_id,nguoidi_dsnhanvien,nguoidi_dskhach)";
+                strSQL += " VALUES";
+                strSQL += " (@doan_id,@nguoidi_dsnhanvien,@nguoidi_dskhach)";
+                List<SqlParameter> parameterList = new List<SqlParameter>();
+                parameterList.Add(new SqlParameter("@doan_id", nd.doan_id));
+                parameterList.Add(new SqlParameter("@nguoidi_dsnhanvien", nd.nguoidi_dsnhanvien));
+                parameterList.Add(new SqlParameter("@nguoidi_dskhach", nd.nguoidi_dsnhanvien));
+                SqlParameter[] Param = parameterList.ToArray();
+
+                int noOfRowInserted = dbContext.Database.ExecuteSqlCommand(strSQL, Param);
+                return t;
+            }
+            catch (DbEntityValidationException e)
+            {
+                foreach (var eve in e.EntityValidationErrors)
+                {
+                    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                            ve.PropertyName, ve.ErrorMessage);
+                    }
+                }
+                throw;
+            }
         }
         public void edit(tour_doan doan)
         {
@@ -137,7 +166,16 @@ namespace DAO.DoanKhach
                     {
                         nd.nguoidi_dskhach = nd.nguoidi_dskhach + "," + tmp_kh.kh_id;
                     }
-                dbContext.SaveChanges();
+                string strSQL = "UPDATE tour_nguoidi SET ";
+                strSQL += " nguoidi_dskhach=@nguoidi_dskhach WHERE nguoidi_id =@nguoidi_id";
+                List<SqlParameter> parameterList = new List<SqlParameter>();
+                parameterList.Add(new SqlParameter("@nguoidi_dskhach", temp.FirstOrDefault().nguoidi_dskhach));
+                parameterList.Add(new SqlParameter("@nguoidi_id", temp.FirstOrDefault().nguoidi_id));
+
+                SqlParameter[] Param = parameterList.ToArray();
+
+                int noOfRowInserted = dbContext.Database.ExecuteSqlCommand(strSQL, Param);
+
                 return true;
             }
             catch (Exception e)
@@ -184,8 +222,15 @@ namespace DAO.DoanKhach
                     nd.nguoidi_dsnhanvien = nd.nguoidi_dsnhanvien + "," + idNv;
                 }
             }
-            dbContext.SaveChanges();
+            string strSQL = "UPDATE tour_nguoidi SET ";
+            strSQL += " nguoidi_dsnhanvien=@nguoidi_dsnhanvien WHERE nguoidi_id =@nguoidi_id";
+            List<SqlParameter> parameterList = new List<SqlParameter>();
+            parameterList.Add(new SqlParameter("@nguoidi_dsnhanvien", nguoidi.FirstOrDefault().nguoidi_dsnhanvien));
+            parameterList.Add(new SqlParameter("@nguoidi_id", nguoidi.FirstOrDefault().nguoidi_id));
 
+            SqlParameter[] Param = parameterList.ToArray();
+
+            int noOfRowInserted = dbContext.Database.ExecuteSqlCommand(strSQL, Param);
         }
     }
 }

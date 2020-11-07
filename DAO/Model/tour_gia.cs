@@ -11,14 +11,14 @@ namespace DAO.Model
         [Key]
         public int gia_id { get; set; }
 
-        public decimal gia_sotien { get; set; }
+        public decimal? gia_sotien { get; set; }
 
-        public int tour_id { get; set; }
-
-        [Column(TypeName = "date")]
-        public DateTime gia_tungay { get; set; }
+        public int? tour_id { get; set; }
 
         [Column(TypeName = "date")]
-        public DateTime gia_denngay { get; set; }
+        public DateTime? gia_tungay { get; set; }
+
+        [Column(TypeName = "date")]
+        public DateTime? gia_denngay { get; set; }
     }
 }

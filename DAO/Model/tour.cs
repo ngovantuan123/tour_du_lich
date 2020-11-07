@@ -11,14 +11,10 @@ namespace DAO.Model
         [Key]
         public int tour_id { get; set; }
 
-        [Required]
         public string tour_ten { get; set; }
 
-        [Required]
         public string tour_mota { get; set; }
 
-        public int loai_id { get; set; }
-
-        public int gia_id { get; set; }
+        public int? loai_id { get; set; }
     }
 }

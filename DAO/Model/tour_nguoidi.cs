@@ -9,18 +9,12 @@ namespace DAO.Model
     public partial class tour_nguoidi
     {
         [Key]
-        [Column(Order = 0)]
         public int nguoidi_id { get; set; }
 
-        [Key]
-        [Column(Order = 1)]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int doan_id { get; set; }
+        public int? doan_id { get; set; }
 
-        [Required]
         public string nguoidi_dsnhanvien { get; set; }
 
-        [Required]
         public string nguoidi_dskhach { get; set; }
     }
 }

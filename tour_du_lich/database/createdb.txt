@@ -1,11 +1,10 @@
 ﻿create database tour_du_lich;
-user tour_du_lich;
+use tour_du_lich;
 CREATE TABLE tours (
   [tour_id] int not null identity(1,1) primary key,
-  [tour_ten] varchar(max) NOT NULL,
-  [tour_mota] varchar(max) NOT NULL,
-  [loai_id] int NOT NULL,
-  [gia_id] int NOT NULL
+  [tour_ten] varchar(max) ,
+  [tour_mota] varchar(max) ,
+  [loai_id] int 
 )  ;
 
 -- SQLINES DEMO *** ---------------------------------------
@@ -16,9 +15,9 @@ CREATE TABLE tours (
 
 CREATE TABLE tour_chiphi (
   [chiphi_id] int not null identity(1,1) primary key,
-  [doan_id] int NOT NULL,
-  [chiphi_total] decimal(10,0) NOT NULL,
-  [chiphi_chitiet] varchar(max) NOT NULL ,
+  [doan_id] int ,
+  [chiphi_total] decimal(10,0) ,
+  [chiphi_chitiet] varchar(max) 
 
 )  ;
 
@@ -30,9 +29,9 @@ CREATE TABLE tour_chiphi (
 
 CREATE TABLE tour_chitiet (
   [ct_id] int not null identity(1,1) primary key,
-  [tour_id] int NOT NULL,
-  [dd_id] int NOT NULL,
-  [ct_thutu] int NOT NULL
+  [tour_id] int ,
+  [dd_id] int ,
+  [ct_thutu] int
 )  ;
 
 -- SQLINES DEMO *** ---------------------------------------
@@ -43,9 +42,9 @@ CREATE TABLE tour_chitiet (
 
 CREATE TABLE tour_diadiem (
   [dd_id] int not null identity(1,1) primary key,
-  [dd_thanhpho] varchar(max) NOT NULL,
-  [dd_ten] varchar(max) NOT NULL,
-  [dd_mota] varchar(max) NOT NULL
+  [dd_thanhpho] varchar(max) ,
+  [dd_ten] varchar(max) ,
+  [dd_mota] varchar(max) 
 )  ;
 
 -- SQLINES DEMO *** ---------------------------------------
@@ -56,11 +55,12 @@ CREATE TABLE tour_diadiem (
 
 CREATE TABLE tour_doan (
   [doan_id] int not null identity(1,1) primary key,
-  [tour_id] int NOT NULL,
-  [doan_name] varchar(max) NOT NULL,
-  [doan_ngaydi] date NOT NULL,
-  [doan_ngayve] date NOT NULL,
-  [doan_chitietchuongtrinh] varchar(max) NOT NULL
+  [tour_id] int ,
+  [doan_name] varchar(max) ,
+  [doan_ngaydi] date ,
+  [doan_ngayve] date ,
+  [doan_chitietchuongtrinh] varchar(max) ,
+  [doan_gia_id] int
 )  ;
 
 -- SQLINES DEMO *** ---------------------------------------
@@ -71,10 +71,10 @@ CREATE TABLE tour_doan (
 
 CREATE TABLE tour_gia (
   [gia_id] int not null identity(1,1) primary key,
-  [gia_sotien] decimal(10,0) NOT NULL,
-  [tour_id] int NOT NULL,
-  [gia_tungay] date NOT NULL,
-  [gia_denngay] date NOT NULL
+  [gia_sotien] decimal(10,0) ,
+  [tour_id] int ,
+  [gia_tungay] date ,
+  [gia_denngay] date 
 )  ;
 
 -- SQLINES DEMO *** ---------------------------------------
@@ -85,11 +85,11 @@ CREATE TABLE tour_gia (
 
 CREATE TABLE tour_nhanvien (
   [nv_id] int not null identity(1,1) primary key,
-  [nv_ten] varchar(max) NOT NULL,
-  [nv_sdt] varchar(max) NOT NULL,
-  [nv_ngaysinh] date NOT NULL,
-  [nv_email] varchar(max) NOT NULL,
-  [nv_nhiemvu] varchar(max) NOT NULL
+  [nv_ten] varchar(max) ,
+  [nv_sdt] varchar(max) ,
+  [nv_ngaysinh] date ,
+  [nv_email] varchar(max) ,
+  [nv_nhiemvu] varchar(max) 
 )  ;
 
 -- SQLINES DEMO *** ---------------------------------------
@@ -100,8 +100,8 @@ CREATE TABLE tour_nhanvien (
 
 CREATE TABLE tour_loai (
   [loai_id]int not null identity(1,1) primary key,
-  [loai_ten] varchar(max) NOT NULL,
-  [loai_mota] varchar(max) NOT NULL
+  [loai_ten] varchar(max) ,
+  [loai_mota] varchar(max) 
 )  ;
 
 -- SQLINES DEMO *** ---------------------------------------
@@ -112,8 +112,8 @@ CREATE TABLE tour_loai (
 
 CREATE TABLE tour_loaichiphi (
   [cp_id] int not null identity(1,1) primary key,
-  [cp_ten] varchar(max) NOT NULL,
-  [cp_mota] varchar(max) NOT NULL
+  [cp_ten] varchar(max) ,
+  [cp_mota] varchar(max) 
 )  ;
 
 -- SQLINES DEMO *** ---------------------------------------
@@ -124,9 +124,9 @@ CREATE TABLE tour_loaichiphi (
 
 CREATE TABLE tour_nguoidi (
   [nguoidi_id] int not null identity(1,1) primary key,
-  [doan_id] int NOT NULL,
-  [nguoidi_dsnhanvien] varchar(max) NOT NULL ,
-  [nguoidi_dskhach] varchar(max) NOT NULL 
+  [doan_id] int ,
+  [nguoidi_dsnhanvien] varchar(max)  ,
+  [nguoidi_dskhach] varchar(max)  
 )  ;
 
 -- SQLINES DEMO *** ---------------------------------------
@@ -137,9 +137,160 @@ CREATE TABLE tour_nguoidi (
 
 CREATE TABLE tour_khachhang (
   [kh_id] int not null identity(1,1) primary key,
-  [kh_ten] varchar(max) NOT NULL,
-  [kh_sdt] varchar(max) NOT NULL,
-  [kh_ngaysinh] date NOT NULL,
-  [kh_email] varchar(max) NOT NULL,
-  [kh_cmnd] varchar(max) NOT NULL
+  [kh_ten] varchar(max) ,
+  [kh_sdt] varchar(max) ,
+  [kh_ngaysinh] date,
+  [kh_email] varchar(max) ,
+  [kh_cmnd] varchar(max) 
 )  ;
+
+insert into tour_khachhang(kh_ten, kh_sdt, kh_ngaysinh, kh_email, kh_cmnd)
+	values(N'Nguyễn Kim Hoa', '0981130616', '1960-11-14', 'kimhoa@gmail.com', '215961334')
+insert into tour_khachhang(kh_ten, kh_sdt, kh_ngaysinh, kh_email, kh_cmnd)
+	values(N'Phí Trâm Oanh', '0948499264', '1963-03-24', 'tramoanh@gmail.com', '215747163')
+insert into tour_khachhang(kh_ten, kh_sdt, kh_ngaysinh, kh_email, kh_cmnd)
+	values(N'Ngô Minh Thiện', '0972544435', '1963-06-27', 'minhthien@gmail.com', '215707838')
+insert into tour_khachhang(kh_ten, kh_sdt, kh_ngaysinh, kh_email, kh_cmnd)
+	values(N'Thi Thạch Thảo', '0932503155', '1965-08-22', 'thachthao@gmail.com', '215387598')
+insert into tour_khachhang(kh_ten, kh_sdt, kh_ngaysinh, kh_email, kh_cmnd)
+	values(N'An Xuân Hòa', '0994755871', '1965-11-14', 'xuanhoa@gmail.com', '215476883')
+insert into tour_khachhang(kh_ten, kh_sdt, kh_ngaysinh, kh_email, kh_cmnd)
+	values(N'Phạm Sơn Quân', '0946177372', '1966-11-24', 'sonquan@gmail.com', '215911101')
+insert into tour_khachhang(kh_ten, kh_sdt, kh_ngaysinh, kh_email, kh_cmnd)
+	values(N'Huỳnh Bảo Vy', '0966600558', '1969-08-02', 'baovy@gmail.com', '215852548')
+insert into tour_khachhang(kh_ten, kh_sdt, kh_ngaysinh, kh_email, kh_cmnd)
+	values(N'Quách Mai Quyên', '0972658942', '1970-12-07', 'maiquyen@gmail.com', '215240940')
+insert into tour_khachhang(kh_ten, kh_sdt, kh_ngaysinh, kh_email, kh_cmnd)
+	values(N'Lý Công Tuấn', '0989239295', '1972-01-21', 'congtuan@gmail.com', '215509457')
+insert into tour_khachhang(kh_ten, kh_sdt, kh_ngaysinh, kh_email, kh_cmnd)
+	values(N'Thạch An Tường', '0976180386', '1972-02-15', 'antuong@gmail.com', '215167491')
+
+insert into tour_nhanvien(nv_ten, nv_sdt, nv_ngaysinh, nv_email, nv_nhiemvu)
+	values(N'Võ Dạ Yến', '0948499264', '1972-02-15', 'dayen@gmail.com', 'dan doan')
+insert into tour_nhanvien(nv_ten, nv_sdt, nv_ngaysinh, nv_email, nv_nhiemvu)
+	values(N'Thi Lam Ngọc', '0972544435', '1974-12-14', 'lamngoc@gmail.com', 'huong dan vien')
+insert into tour_nhanvien(nv_ten, nv_sdt, nv_ngaysinh, nv_email, nv_nhiemvu)
+	values(N'Nguyễn Hồng Thư', '0932503155', '1975-04-05', 'hongthu@gmail.com', 'phu doan')
+insert into tour_nhanvien(nv_ten, nv_sdt, nv_ngaysinh, nv_email, nv_nhiemvu)
+	values(N'Chử Minh Ðức', '0994755871', '1975-05-25', 'minhduc@gmail.com', 'tai xe')
+insert into tour_nhanvien(nv_ten, nv_sdt, nv_ngaysinh, nv_email, nv_nhiemvu)
+	values(N'Lê Xuân Hãn', '0946177372', '1977-10-06', 'xuanhan@gmail.com', 'phu doan')
+insert into tour_nhanvien(nv_ten, nv_sdt, nv_ngaysinh, nv_email, nv_nhiemvu)
+	values(N'Võ Thi Cầm', '0966600558', '1979-03-17', 'thicam@gmail.com', 'huong dan vien')
+insert into tour_nhanvien(nv_ten, nv_sdt, nv_ngaysinh, nv_email, nv_nhiemvu)
+	values(N'Đàm Thanh Minh', '0972658942', '1982-02-14', 'thanhminh@gmail.com', 'huong dan vien')
+insert into tour_nhanvien(nv_ten, nv_sdt, nv_ngaysinh, nv_email, nv_nhiemvu)
+	values(N'Đỗ Ngọc Quế', '0989239295', '1983-10-20', 'ngocque@gmail.com', 'phu doan')
+insert into tour_nhanvien(nv_ten, nv_sdt, nv_ngaysinh, nv_email, nv_nhiemvu)
+	values(N'Tống Tuyết Xuân', '0976180386', '1985-01-28', 'tuyetxuan@gmail.com', 'huong dan vien')
+insert into tour_nhanvien(nv_ten, nv_sdt, nv_ngaysinh, nv_email, nv_nhiemvu)
+	values(N'Dương Tường Minh', '0935173744', '1986-09-21', 'tuongminh@gmail.com', 'huong dan vien')
+
+insert into tour_loai(loai_ten, loai_mota)
+	values (N'Cao cấp', '')
+insert into tour_loai(loai_ten, loai_mota)
+	values (N'Tiêu chuẩn', '')
+insert into tour_loai(loai_ten, loai_mota)
+	values (N'Tiết kiệm', '')
+
+insert into tours(tour_ten, tour_mota, loai_id)
+	values(N'Tây nguyên đại ngàn', '', 1)
+insert into tours(tour_ten, tour_mota, loai_id)
+	values(N'Biển xanh miền duyên hải', '', 2)
+insert into tours(tour_ten, tour_mota, loai_id)
+	values(N'Về miền tây', '', 3)
+insert into tours(tour_ten, tour_mota, loai_id)
+	values(N'Di sản miền trung', '', 2)
+	
+insert into tour_gia(gia_sotien, tour_id, gia_tungay, gia_denngay)
+	values(26990000, 1, '2020-11-07', '2020-11-11')
+insert into tour_gia(gia_sotien, tour_id, gia_tungay, gia_denngay)
+	values(3190000, 2, '2020-11-11', '2020-11-14')
+insert into tour_gia(gia_sotien, tour_id, gia_tungay, gia_denngay)
+	values(880000, 3, '2020-11-05', '2020-11-8')
+insert into tour_gia(gia_sotien, tour_id, gia_tungay, gia_denngay)
+	values(4590000, 4, '2020-11-08', '2020-11-11')
+
+insert into tour_diadiem(dd_thanhpho, dd_ten, dd_mota)
+	values(N'Lâm Đồng', N'Bảo Lộc', '')
+insert into tour_diadiem(dd_thanhpho, dd_ten, dd_mota)
+	values(N'Lâm Đồng', N'Madagui', '')
+insert into tour_diadiem(dd_thanhpho, dd_ten, dd_mota)
+	values(N'Đắk Nông', N'Đắk Nông', '')
+insert into tour_diadiem(dd_thanhpho, dd_ten, dd_mota)
+	values(N'Đắk Nông', N'Tuyệt tác Hồ Tà Đùng', '')
+insert into tour_diadiem(dd_thanhpho, dd_ten, dd_mota)
+	values(N'Bình Định', N'Kỳ Co', '')
+insert into tour_diadiem(dd_thanhpho, dd_ten, dd_mota)
+	values(N'Bình Định', N'Eo Gió', '')
+insert into tour_diadiem(dd_thanhpho, dd_ten, dd_mota)
+	values(N'Bình Định', N'Đảo Jeju', '')
+insert into tour_diadiem(dd_thanhpho, dd_ten, dd_mota)
+	values(N'Đắk Lắk', N'Buôn Ma Thuột', '')
+insert into tour_diadiem(dd_thanhpho, dd_ten, dd_mota)
+	values(N'Gia Lai', N'Pleiku', '')
+insert into tour_diadiem(dd_thanhpho, dd_ten, dd_mota)
+	values(N'Đà Nẵng', N'Đà Nẵng', '')
+insert into tour_diadiem(dd_thanhpho, dd_ten, dd_mota)
+	values(N'Đà Nẵng', N'Bà Nà', '')
+insert into tour_diadiem(dd_thanhpho, dd_ten, dd_mota)
+	values(N'Quảng Nam', N'Hội An', '')
+	
+insert into tour_chitiet(tour_id, dd_id, ct_thutu)
+	values(1, 1, 1)
+insert into tour_chitiet(tour_id, dd_id, ct_thutu)
+	values(1, 2, 2)
+insert into tour_chitiet(tour_id, dd_id, ct_thutu)
+	values(1, 3, 3)
+insert into tour_chitiet(tour_id, dd_id, ct_thutu)
+	values(1, 4, 4)
+insert into tour_chitiet(tour_id, dd_id, ct_thutu)
+	values(2, 5, 1)
+insert into tour_chitiet(tour_id, dd_id, ct_thutu)
+	values(2, 6, 2)
+insert into tour_chitiet(tour_id, dd_id, ct_thutu)
+	values(2, 7, 3)
+insert into tour_chitiet(tour_id, dd_id, ct_thutu)
+	values(3, 8, 1)
+insert into tour_chitiet(tour_id, dd_id, ct_thutu)
+	values(3, 9, 2)
+insert into tour_chitiet(tour_id, dd_id, ct_thutu)
+	values(4, 10, 1)
+insert into tour_chitiet(tour_id, dd_id, ct_thutu)
+	values(4, 11, 2)
+insert into tour_chitiet(tour_id, dd_id, ct_thutu)
+	values(4, 12, 3)
+
+insert into tour_doan(tour_id, doan_name, doan_ngaydi, doan_ngayve, doan_chitietchuongtrinh,doan_gia_id)
+	values(1, N'Đoàn Tây Nguyên', '2020-11-07', '2020-11-11', '',0)
+insert into tour_doan(tour_id, doan_name, doan_ngaydi, doan_ngayve, doan_chitietchuongtrinh,doan_gia_id)
+	values(2, N'Đoàn Duyên Hải Nam Trung Bộ', '2020-11-11', '2020-11-14', '',1)
+insert into tour_doan(tour_id, doan_name, doan_ngaydi, doan_ngayve, doan_chitietchuongtrinh,doan_gia_id)
+	values(3, N'Đoàn Miền Tây', '2020-11-05', '2020-11-8', '',2)
+insert into tour_doan(tour_id, doan_name, doan_ngaydi, doan_ngayve, doan_chitietchuongtrinh,doan_gia_id)
+	values(4, N'Đoàn Miền Trung', '2020-11-08', '2020-11-11', '',3)
+
+insert into tour_chiphi(doan_id, chiphi_total, chiphi_chitiet)
+	values(1, 39000000, '')
+insert into tour_chiphi(doan_id, chiphi_total, chiphi_chitiet)
+	values(2, 18000000, '')
+insert into tour_chiphi(doan_id, chiphi_total, chiphi_chitiet)
+	values(3, 6250000, '')
+insert into tour_chiphi(doan_id, chiphi_total, chiphi_chitiet)
+	values(4, 15200000, '')
+
+insert into tour_loaichiphi(cp_ten, cp_mota)
+	values(N'di chuyển', '')
+insert into tour_loaichiphi(cp_ten, cp_mota)
+	values(N'nhà nghỉ, khách sạn', '')
+insert into tour_loaichiphi(cp_ten, cp_mota)
+	values(N'tư vấn, hướng dẫn', '')
+insert into tour_loaichiphi(cp_ten, cp_mota)
+	values(N'ăn uống', '')
+insert into tour_loaichiphi(cp_ten, cp_mota)
+	values(N'vé tham quan', '')
+insert into tour_loaichiphi(cp_ten, cp_mota)
+	values(N'thuê trang phục, dụng cụ', '')
+insert into tour_loaichiphi(cp_ten, cp_mota)
+	values(N'phát sinh khác', '')
+

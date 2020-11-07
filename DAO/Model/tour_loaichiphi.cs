@@ -11,10 +11,8 @@ namespace DAO.Model
         [Key]
         public int cp_id { get; set; }
 
-        [Required]
         public string cp_ten { get; set; }
 
-        [Required]
         public string cp_mota { get; set; }
     }
 }
