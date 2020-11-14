@@ -24,6 +24,7 @@ namespace DAO.ViewModel
         public List<tour_khachhang> khachHangChuaCoTrongDoan { get; set; }
         public tour_gia gia { get; set; }
         public List<tour_gia> list_gia { get; set; }
+        public List<tour_loaichiphi> list_loaiCP { get; set; }
 
     }
 }

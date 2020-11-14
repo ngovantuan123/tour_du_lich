@@ -124,6 +124,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChiPhi\ChiPhiModel.cs" />
+    <Compile Include="ChiPhi\ChiTietChiPhi.cs" />
     <Compile Include="DoanKhach\DoanKhachModel.cs" />
     <Compile Include="KhachHang\KhachHangModel.cs" />
     <Compile Include="Model\db.cs" />

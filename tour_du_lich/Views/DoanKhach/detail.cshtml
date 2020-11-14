@@ -29,11 +29,11 @@
             <tbody>
                 <tr>
                     <td><b>Tên đoàn:</b>&nbsp;@Model.doanKhach.doan_name</td>
-                    <td><b>Số lượng khách:</b>&nbsp;<p id="slk">@Model.khachHangs.Count()</p></td>
+                    <td><b>Số lượng khách:</b>&nbsp;<span id="slk">@Model.khachHangs.Count()</span></td>
                 </tr>
                 <tr>
                     <td><b>Ngày đi:</b>&nbsp;@Model.doanKhach.doan_ngaydi</td>
-                    <td ><b>Số lượng nhân viên:</b>&nbsp;<p id="slnv">@Model.nhanViens.Count()</p></td>
+                    <td ><b>Số lượng nhân viên:</b>&nbsp;<span id="slnv">@Model.nhanViens.Count()</span></td>
 </tr>
                 <tr>
                     <td><b>Ngày về:</b>&nbsp;@Model.doanKhach.doan_ngayve</td>
@@ -52,7 +52,6 @@
                 <li class="nav-item active">
                     <a href="#khachhang" class="nav-link active" role="tab" data-toggle="tab">Danh sách khách hàng</a>
                 </li>
-
                 <li class="nav-item">
                     <a href="#nhanvien" class="nav-link" role="tab" data-toggle="tab" id="loadnv">Danh sách nhân viên</a>
                 </li>
@@ -159,16 +158,68 @@
                         <div class="col-lg-12">
                             <form action="" method="post">
                                 <div class="form-group">
-                                    <div class="form-row">
-                                        <div class="col-lg-5">
-                                            <select id="s_chiphi" name="chiphi" class="form-control " data-placeholder="Chon  nhan vien" required="required">
-                                               
-                                            </select>
-                                            <small id="errortour" class="text-danger">
-                                            </small>
-                                        </div>
+                                    <div class="form-row">                                  
                                         <div class="col-lg-3">
-                                            <div class="col text-center"><button class="btn btn-primary" id="btnthemcp" type="button">Thêm Chi Phí</button></div>
+                                            <div class="col text-center"><button class="btn btn-primary" id="btnthemcp" data-toggle="modal" data-target="#exampleModalCenter" type="button">Thêm Chi Phí</button></div>
+                                            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLongTitle">Thêm chi phí</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            @using (Html.BeginForm("", "", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                                            {
+                                                                <div class="form-group">
+                                                                    <div class="form-row">
+                                                                        <div class="col"><label class="col-form-label">Loại chi phí</label></div>
+                                                                        <select id="c_chiphi" name="loaichiphi" class="form-control" data-placeholder="Chọn chi phí" required="required">
+                                                                            @foreach (var record in Model.list_loaiCP)
+                                                                            {
+                                                                                <option value="@record.cp_id">@record.cp_ten</option>
+                                                                            }
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <div class="form-row">
+                                                                        <div class="col"><label class="col-form-label">Hóa Đơn:&nbsp;</label></div>
+                                                                        <input type="text" id="sohd"  name="sohoadon" class="form-control" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <div class="form-row">
+                                                                        <div class="col"><label class="col-form-label">Ngày Hóa Đơn:&nbsp;</label></div>
+                                                                        <input type="date"  id="ngayhd" name="hoadon"  class="form-control" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <div class="form-row">
+                                                                        <div class="col"><label class="col-form-label">Nội Dung:&nbsp;</label></div>
+                                                                        <input type="text" id="noi_dung" name="noidung"   class="form-control" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <div class="form-row">
+                                                                        <div class="col"><label class="col-form-label">Số Tiền:&nbsp;</label></div>
+                                                                        <input type="text" id="so_tien" name="sotien"   class="form-control" />
+                                                                    </div>
+                                                                </div>
+
+
+                                                            }
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                                                                <button type="button" class="btn btn-primary" id="themcp">Thêm</button>
+                                                            </div>
+                                                        </div>
+                                                                
+                                                            </div>
+                                                </div>
+                                            </div>       
                                         </div>
 
 
@@ -181,13 +232,12 @@
                         <table id="demoGridcp" class="table table-striped table-bordered dt-responsive nowrap" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Tên nhân viên</th>
-                                    <th>Số điện thoại</th>
-                                    <th>Ngày Sinh</th>
-                                    <th>Email</th>
-                                    <th>Vai trò</th>
-                                    <th>Thao tác</th>
+                                    <th>#</th>
+                                    <th>Hóa Đơn</th>
+                                    <th>Loại Chi Phí</th>
+                                    <th>Tên Chi Phí</th>
+                                    <th>Số tiền</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                         </table>
@@ -216,8 +266,8 @@
                         var table = $('#demoGridnv').DataTable();
                         table.ajax.reload();
                         loadNvTypes();
-                        var slnv = $("#slnv").val();
-                        slnv = slnv + 1;
+                        var slnv = $("#slnv").text();
+                        slnv = Number(slnv) + 1;
                         $("#slnv").text(slnv);
                     }
                     else {
@@ -248,6 +298,9 @@
                         var table = $('#demoGrid').DataTable();
                         table.ajax.reload();
                         loadKhTypes();
+                        var slk = $("#slk").text();
+                        slk = Number(slk) + 1;
+                        $("#slk").text(slk);
                     }
                     else {
                         err = 'error';
@@ -260,6 +313,10 @@
                 }
             });
         });
+        //them chi phi
+        $("#themcp").click(function () {
+            themChiPhi();
+        });
 
         // display date
         function formatStringDate(date) {
@@ -269,7 +326,7 @@
                         };
 
                         // display format current VND
-                        function formatCurrentVND(number) {
+        function formatCurrentVND(number) {
 
                             return number.toLocaleString('vi-VN', { currency: 'VND', style: 'currency' });
                         }
@@ -316,7 +373,8 @@
 
                             loadkh(idTour,urlnv);
 
-                        });
+        });
+        //load data khach hang
         function loadkh(idTour,urlnv) {
             @*var params = new window.URLSearchParams(window.location.search);
             var idTour = pams.get('id');
@@ -358,8 +416,59 @@
                 ]
             });
         }
+        //load data chiphi
+        function loadchiphi( urlcp) {
+            $("#demoGridnv").DataTable({
+
+                "processing": true, // for show progress bar
+                "serverSide": true, // for process server side
+                "filter": true, // this is for disable filter (search box)
+                "orderMulti": false, // for disable multiple column at once
+                "pageLength": 5,
+
+
+                "ajax": {
+                    "url": urlcp,
+                    "type": "POST",
+                    "datatype": "json",
+                },
+                columnDefs: [
+                    //{ className: 'text-right', targets: [0, 1, 2,3, 4] },
+                    //{ className: 'text-center', targets: [0,1,2,3,4,5,6,7] }
+
+
+                ],
+                "columns": [
+                    { "data": "nv_id", "name": "nv_id", "autoWidth": true },
+                    { "data": "nv_ten", "name": "nv_ten", "autoWidth": true },
+                    { "data": "nv_sdt", "name": "nv_sdt", "autoWidth": true },
+                    {
+                        "data": "nv_ngaysinh", "name": "nv_ngaysinh", "autoWidth": true,
+                        "render": function (data) { return formatStringDate(data); }
+                    },
+                    { "data": "nv_email", "name": "nv_email", "autoWidth": true },
+                    { "data": "nv_nhiemvu", "name": "nv_nhiemvu", "autoWidth": true },
+                    {
+                        "render": function (data, type, full, meta) { return '<a class="btn btn-info" href="' + full.nv_id + '">xóa</a>'; }
+                    }
+                ]
+            });
+        }     
+        //them chiphi
+        function themChiPhi() {
+            var data = {
+                idDoan: $("#iddoan").val(),
+                tencp: $("#c_chiphi option:selected").text(),
+                hoadon: $("#sohd").val(),
+                ngayhoadon: $("#ngayhd").val(),
+                noidung: $("#noi_dung").val(),
+                sotien: $("#so_tien").val()
+            };
+            console.log("");
+        }
+
         //xoa khach hang khoi doan
-        $("#xoakh").click(function () {
+        $("#xoakh").click(function (idDoan,urlcp) {
             //var data =
         });
 

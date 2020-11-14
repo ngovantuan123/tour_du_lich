@@ -7,12 +7,15 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Linq.Dynamic;
+using DAO.ChiPhi;
+using System.Web.Script.Serialization;
 
 namespace tour_du_lich.Controllers
 {
     public class DoanKhachController : Controller
     {
         DoanKhachModel doanKhachModel = new DoanKhachModel();
+        ChiPhiModel ChiPhiModel = new ChiPhiModel();
         // GET: DoanKhach
         public ActionResult Index()
         {
@@ -130,7 +133,8 @@ namespace tour_du_lich.Controllers
            doanKhachViewModel.khachHangs = ((List < tour_khachhang >) kh_nv["kh"]);
            doanKhachViewModel.nhanViens = ((List < tour_nhanvien >) kh_nv["nv"]);
            doanKhachViewModel.nhanVienChuaCoTrongDoan = doanKhachModel.getNhanVienChuaCoTrongDoanKhach(id);
-            doanKhachViewModel.khachHangChuaCoTrongDoan = doanKhachModel.getKhachHangChuaCoTrongDoanKhach(id);
+           doanKhachViewModel.khachHangChuaCoTrongDoan = doanKhachModel.getKhachHangChuaCoTrongDoanKhach(id);
+            doanKhachViewModel.list_loaiCP = ChiPhiModel.getAllLoaiChiPhi();
             return View(doanKhachViewModel);
         }
         public ActionResult loadDataTableDSKH()
@@ -233,6 +237,56 @@ namespace tour_du_lich.Controllers
                 throw;
             }
         }
+
+        public ActionResult loadDataTableDSCP()
+        {
+            var idTour = Request.QueryString["id"];
+            try
+            {
+                var draw = Request.Form.GetValues("draw").FirstOrDefault();
+                var start = Request.Form.GetValues("start").FirstOrDefault();
+                var length = Request.Form.GetValues("length").FirstOrDefault();
+                var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+                var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+                var searchValue = Request.Form.GetValues("search[value]").FirstOrDefault();
+
+
+                //Paging Size (10,20,50,100)    
+                int pageSize = length != null ? Convert.ToInt32(length) : 0;
+                int skip = start != null ? Convert.ToInt32(start) : 0;
+                int recordsTotal = 0;
+                //var data = ChiPhiModel.getAllChiPhi().AsQueryable();
+                //Sorting    
+                if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+                {
+                    data = data.OrderBy(sortColumn + " " + sortColumnDir);
+                }
+                //Search    
+                if (!string.IsNullOrEmpty(searchValue))
+                {
+                    data = data.Where(m => m.cp_ten.Contains(searchValue));
+                }
+
+
+                //total number of rows count     
+                recordsTotal = data.Count();
+
+                //Sort and Paging     
+                var data1 = data.Skip(skip).Take(pageSize).ToList(); // phân trang
+
+                //Returning Json Data  
+
+
+                return Json(new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = data1, JsonRequestBehavior.AllowGet });
+
+            }
+
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         [HttpPost]
         public ActionResult themKhachHangVoDoanKhach(String idKh, String idDoan)
         {
@@ -273,6 +327,11 @@ namespace tour_du_lich.Controllers
             {
                 return Json(new { Success = false }, JsonRequestBehavior.AllowGet);
             }
+        }
+        [HttpPost]
+        public ActionResult themChiPhi()
+        {
+            return null;
         }
 
     }
