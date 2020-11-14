@@ -139,6 +139,7 @@ namespace DAO.DoanKhach
                 d.doan_ngayve = doan.doan_ngayve;
                 d.doan_chitietchuongtrinh = doan.doan_chitietchuongtrinh;
                 d.tour_id = doan.tour_id;
+                d.doan_gia_id = doan.doan_gia_id;
             }
             dbContext.SaveChanges();
         }
@@ -149,40 +150,31 @@ namespace DAO.DoanKhach
 
         }
 
-        public bool addKhachHangVaoDoanKhach(DoanKhachViewModel doanKhachViewModel)
+        public void addKhachHangVaoDoanKhach(String idKh,String idDoan)
         {
-            try
-            {
-
-                var tmp_kh = dbContext.tour_khachhang.Add(doanKhachViewModel.kh);
-                dbContext.SaveChanges();
-                var temp = dbContext.tour_nguoidi.Where(m => m.doan_id == doanKhachViewModel.doanKhach.doan_id).ToList();
-                foreach (tour_nguoidi nd in temp)
+                int idd = Convert.ToInt32(idDoan);
+                var nguoidi = dbContext.tour_nguoidi.Where(m => m.doan_id == idd).ToList();
+                foreach (tour_nguoidi nd in nguoidi)
+                {
                     if (nd.nguoidi_dskhach.Equals(" "))
                     {
-                        nd.nguoidi_dskhach = Convert.ToString(tmp_kh.kh_id);
+                        nd.nguoidi_dskhach = idKh;
                     }
                     else
                     {
-                        nd.nguoidi_dskhach = nd.nguoidi_dskhach + "," + tmp_kh.kh_id;
+                        nd.nguoidi_dskhach = nd.nguoidi_dskhach + "," + idKh;
                     }
+                }
                 string strSQL = "UPDATE tour_nguoidi SET ";
                 strSQL += " nguoidi_dskhach=@nguoidi_dskhach WHERE nguoidi_id =@nguoidi_id";
                 List<SqlParameter> parameterList = new List<SqlParameter>();
-                parameterList.Add(new SqlParameter("@nguoidi_dskhach", temp.FirstOrDefault().nguoidi_dskhach));
-                parameterList.Add(new SqlParameter("@nguoidi_id", temp.FirstOrDefault().nguoidi_id));
+                parameterList.Add(new SqlParameter("@nguoidi_dskhach", nguoidi.FirstOrDefault().nguoidi_dskhach));
+                parameterList.Add(new SqlParameter("@nguoidi_id", nguoidi.FirstOrDefault().nguoidi_id));
 
                 SqlParameter[] Param = parameterList.ToArray();
 
                 int noOfRowInserted = dbContext.Database.ExecuteSqlCommand(strSQL, Param);
-
-                return true;
             }
-            catch (Exception e)
-            {
-                return false;
-            }
-        }
         public List<tour_nhanvien> getNhanVienChuaCoTrongDoanKhach(int idDoan)
         {
             Dictionary<String, Object> temp = getNhanVienAndKhachHang(idDoan);
@@ -197,6 +189,29 @@ namespace DAO.DoanKhach
             {
                 kq = dbContext.tour_nhanvien.ToList();
                 nvs.ForEach(m =>
+                {
+                    if (kq.Contains(m))
+                    {
+                        kq.Remove(m);
+                    }
+                });
+            }
+            return kq;
+        }
+        public List<tour_khachhang> getKhachHangChuaCoTrongDoanKhach(int idDoan)
+        {
+            Dictionary<String, Object> temp = getNhanVienAndKhachHang(idDoan);
+            List<tour_khachhang> khs = ((List<tour_khachhang>)temp["kh"]);
+            List<tour_khachhang> kq = new List<tour_khachhang>();
+            if (khs.Count() == 0)
+            {
+
+                kq = dbContext.tour_khachhang.ToList();
+            }
+            if (khs.Count > 0)
+            {
+                kq = dbContext.tour_khachhang.ToList();
+                khs.ForEach(m =>
                 {
                     if (kq.Contains(m))
                     {
@@ -231,6 +246,12 @@ namespace DAO.DoanKhach
             SqlParameter[] Param = parameterList.ToArray();
 
             int noOfRowInserted = dbContext.Database.ExecuteSqlCommand(strSQL, Param);
+        }
+
+        public List<tour_gia> getGiaTour(string idTour)
+        {
+            int _idTour = Convert.ToInt32(idTour);
+            return dbContext.tour_gia.Where(m => m.tour_id == _idTour).ToList();        
         }
     }
 }

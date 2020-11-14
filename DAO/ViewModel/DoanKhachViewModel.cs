@@ -20,8 +20,11 @@ namespace DAO.ViewModel
         public List<tour> listTour { get; set; }
         public tour_nhanvien nv { get; set; }
         public tour_khachhang kh { get; set; }
-        public List<tour_nhanvien> nhanVienChuaCoTrongDoan { get; set; } 
+        public List<tour_nhanvien> nhanVienChuaCoTrongDoan { get; set; }
+        public List<tour_khachhang> khachHangChuaCoTrongDoan { get; set; }
         public tour_gia gia { get; set; }
+        public List<tour_gia> list_gia { get; set; }
+        public List<tour_loaichiphi> list_loaiCP { get; set; }
 
     }
 }

@@ -10,15 +10,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>Thêm đoàn khách</title>
-        <link rel="stylesheet" href="~/Content/detail/assets/bootstrap/css/bootstrap.min.css">
-    <!--
-        
+
+
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.min.css">
-        -->
+    <script src="~/Content/Dashboard/assets/js/jquery.min.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700">
-    <link rel="stylesheet" href="~/Content/detail/assets/fonts/ionicons.min.css">
     <link rel="stylesheet" href="~/Content/chosen/component-chosen.css">
-    
+
 </head>
 
 <body>
@@ -57,8 +55,7 @@
                     <div class="form-group">
                         <div class="form-row">
                             <div class="col"><label class="col-form-label">Tour:</label></div>
-                            <select id="single" name="tour" class="form-control form-control-chosen" data-placeholder="Please select tour" required="required">
-                                <option></option>
+                            <select id="single" name="tour" class="form-control" data-placeholder="Chọn tour" required="required">
                                 @foreach (var record in Model.listTour)
                                 {
                                     <option value="@record.tour_id">@record.tour_ten</option>
@@ -70,6 +67,18 @@
                         </div>
                     <div class="form-group">
                         <div class="form-row">
+                            <div class="col"><label class="col-form-label">Giá:</label></div>
+                            <select id="gia" name="gia" class="form-control" data-placeholder="" required="required">
+                                @foreach (var record in Model.list_gia)
+                                {
+                                    <option value="@record.gia_id">@record.gia_sotien</option>
+                                    
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-row">
                             <div class="col text-center"><button class="btn btn-primary" id="btnsubmit" type="submit">ADD</button></div>
                         </div>
                     </div>
@@ -77,18 +86,46 @@
             </div>
                 </section>
     </main>
-    <script src="~/Content/detail/assets/js/jquery.min.js"></script>
-    
-    
+   
         
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.6/chosen.jquery.min.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.6.1/pikaday.min.js"></script>
-    <script src="~/Content/detail/assets/bootstrap/js/bootstrap.min.js"></script>
-   
-    <script src="~/Content/detail/assets/js/theme.js"></script>
-    <script>
+       <script>
+        $("#single").change(function () {
+            var data = {
+                idTour : $("#single :selected").val()
+            };
+            $.ajax({
+                url: "/DoanKhach/getGiaTour",
+                type: "POST",
+                data: JSON.stringify(data),
+                dataType: "json",
+                contentType: "application/json",
+                success: function (response) {
+                    if (response.Success) {
+                        $('#gia').empty();
+                        for (var i = 0; i < response.gias.length; i++) {
+
+                            $('#gia').append('<option value="' + response.gias[i].gia_id + '">' + response.gias[i].gia_sotien + ' </option>');
+                            console.log(response.gias[i].gia_id);
+                            console.log(response.gias[i].gia_sotien);
+
+                        }
+                        
+                    }
+                    else {
+                        err = 'error';
+                        $("#error").text(err);
+                        return false;
+                    }
+                },
+                error: function () {
+                    console.log('error');
+                }
+            });
+        });
+
         $('.form-control-chosen').chosen({
-            
         });
         $(document).ready(function () {
             $("#btnsubmit").click(function () {
@@ -97,6 +134,8 @@
                     $("#errortour").text("chon tour")  ;
                 }
             });
+
+
           
         });
 

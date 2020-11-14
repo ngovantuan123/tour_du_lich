@@ -1,22 +1,21 @@
-﻿using System;
+﻿using DAO.KhachHang;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using DAO.NhanVien;
 using System.Linq.Dynamic;
 using DAO.Model;
 
 namespace tour_du_lich.Controllers
 {
-    public class NhanVienController : Controller
+    public class KhachHangController : Controller
     {
-         NhanVienModel nhanVienModel = new NhanVienModel();
-        // GET: NhanVien
+        KhachHangModel KhachHangModel = new KhachHangModel();
+        // GET: KhachHang
         public ActionResult Index()
         {
             return View();
-        
         }
         public ActionResult LoadData()
         {
@@ -38,7 +37,7 @@ namespace tour_du_lich.Controllers
 
 
 
-                var data = nhanVienModel.getAllNhanVien();
+                var data = KhachHangModel.getAllKhachHang();
                 //Sorting    
                 if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
                 {
@@ -47,7 +46,7 @@ namespace tour_du_lich.Controllers
                 //Search    
                 if (!string.IsNullOrEmpty(searchValue))
                 {
-                    data = data.Where(m => m.nv_ten.Contains(searchValue));
+                    data = data.Where(m => m.kh_ten.Contains(searchValue));
                 }
 
 
@@ -70,41 +69,41 @@ namespace tour_du_lich.Controllers
             }
             // return View();
         }
-        public ActionResult addNhanVien()
+        public ActionResult addKhachHang()
         {
-            tour_nhanvien nv = new tour_nhanvien();
-            return View(nv);
+            tour_khachhang kh = new tour_khachhang();
+            return View(kh);
         }
         [HttpPost]
-        public ActionResult addNhanVien(tour_nhanvien tour_Nhanvien)
+        public ActionResult addKhachHang(tour_khachhang tour_Khachhang)
         {
             try
             {
-                nhanVienModel.addNhanVien(tour_Nhanvien);
+                KhachHangModel.addKhachHang(tour_Khachhang);
                 return RedirectToAction("Index");
             }
             catch (Exception e)
             {
-                return View(tour_Nhanvien);
+                return View(tour_Khachhang);
             }
         }
-        public ActionResult editNhanVien(String idNhanVien)
+        public ActionResult editKhachHang(String idKhachHang)
         {
 
-            tour_nhanvien nv = nhanVienModel.getById(idNhanVien);
-            return View(nv);
+            tour_khachhang kh = KhachHangModel.getById(idKhachHang);
+            return View(kh);
         }
         [HttpPost]
-        public ActionResult editNhanVien(tour_nhanvien tour_Nhanvien)
+        public ActionResult editKhachHang(tour_khachhang tour_Khachhang)
         {
             try
             {
-                nhanVienModel.editNhanVien(tour_Nhanvien);
+                KhachHangModel.editKhachHang(tour_Khachhang);
                 return RedirectToAction("Index");
             }
             catch (Exception e)
             {
-                return View(tour_Nhanvien);
+                return View(tour_Khachhang);
             }
         }
     }
