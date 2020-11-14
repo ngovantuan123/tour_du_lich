@@ -1,0 +1,146 @@
+
+
+use tour_du_lich
+
+
+-- Tao function cat chuoi
+CREATE FUNCTION [dbo].[STRING_SPLIT]( @string nvarchar(MAX), @separator nvarchar(MAX) )
+RETURNS TABLE WITH SCHEMABINDING 
+AS RETURN
+   WITH X(N) AS (SELECT 'Table1' FROM (VALUES (0),(0),(0),(0),(0),(0),(0),(0),(0),(0),(0),(0),(0),(0),(0),(0)) T(C)),
+        Y(N) AS (SELECT 'Table2' FROM X A1, X A2, X A3, X A4, X A5, X A6, X A7, X A8) , -- Up to 16^8 = 4 billion
+        T(N) AS (SELECT TOP(ISNULL(LEN(@string),0)) ROW_NUMBER() OVER (ORDER BY (SELECT NULL)) -1 N FROM Y),
+        Delim(Pos) AS (SELECT t.N FROM T WHERE (SUBSTRING(@string, t.N, LEN(@separator+'x')-1) LIKE @separator OR t.N = 0)),
+        Separated(value) AS (SELECT SUBSTRING(@string, d.Pos + LEN(@separator+'x')-1, LEAD(d.Pos,1,2147483647) OVER (ORDER BY (SELECT NULL)) - d.Pos - LEN(@separator)) 
+                               FROM Delim d
+                              WHERE @string IS NOT NULL)
+       SELECT s.value
+         FROM Separated s
+        WHERE s.value <> @separator
+
+
+-- Tao function danh sach khach hang
+create function [dbo].[LIST_PEOPLE](@doanid int)
+returns table
+as
+	return	(select *
+			from STRING_SPLIT( (select nguoidi_dskhach
+								from tour_nguoidi
+								where doan_id = @doanid) , ',' ))
+
+
+-- Tao function dem so khach hang
+create function [dbo].[COUNT_PEOPLE](@doanid int)
+returns int
+as
+begin
+	return	(select count(*)
+			from STRING_SPLIT( (select nguoidi_dskhach
+								from tour_nguoidi
+								where doan_id = @doanid) , ',' ))
+end
+
+
+-- Tao function danh sach nhan vien
+create function [dbo].[LIST_STAFF](@doanid int)
+returns table
+as
+	return	(select *
+			from STRING_SPLIT( (select nguoidi_dsnhanvien
+								from tour_nguoidi
+								where doan_id = @doanid) , ',' ))
+
+
+-- Doanh thu cua doan, tour trong khoang thoi gian;
+create function fn_doanhthu(@tn date, @dn date)
+returns table
+as
+	return (select t.tour_id as id, t.tour_ten as ten, dt.sotien as tongtien, cp.chiphi, dt.sotien - cp.chiphi as lai
+			from
+				tours t,
+
+				(select t.tour_id, sum(g.gia_sotien * dbo.COUNT_PEOPLE(d.doan_id)) as sotien
+				from tour_doan d, tours t, tour_gia g
+				where d.tour_id = t.tour_id and t.tour_id = g.tour_id and d.doan_ngaydi >= g.gia_tungay
+					and d.doan_ngayve <= g.gia_denngay and doan_ngaydi >= @tn and doan_ngayve <= @dn
+				group by t.tour_id) dt,
+
+				(select t.tour_id, sum(c.chiphi_total) as chiphi
+				from tours t, tour_doan d, tour_chiphi c
+				where t.tour_id = d.tour_id and d.doan_id = c.doan_id
+						and d.doan_ngaydi >= @tn and d.doan_ngayve <= @dn
+				group by t.tour_id) cp
+
+			where t.tour_id =  dt.tour_id and t.tour_id = cp.tour_id)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+select * from dbo.fn_doanhthu('2020-11-05', '2020-11-11')
+
+
+-- Danh sach dia diem cua tour
+select t.tour_id, t.tour_ten as ten, d.dd_ten as diadiem, c.ct_thutu as thutu
+from tours t, tour_chitiet c, tour_diadiem d
+where t.tour_id = c.tour_id and c.dd_id = d.dd_id
+
+
+
+
+-- Thong ke chi phi
+create function fn_chiphi(@tn date, @dn date) returns table as
+return (select t.tour_ten as ten, tmp.chiphi
+		from tours t,	(select t.tour_id, sum(c.chiphi_total) as chiphi
+						from tours t, tour_doan d, tour_chiphi c
+						where t.tour_id = d.tour_id and d.doan_id = c.doan_id
+								and d.doan_ngaydi >= @tn and d.doan_ngayve <= @dn
+						group by t.tour_id) tmp
+		where t.tour_id =  tmp.tour_id)
+
+select * from dbo.fn_chiphi('2020-11-05', '2020-11-11')
+
+
+
+
+-- Thong ke tinh hinh hoat dong doanh thu, so doan theo moi tour
+create function fn_thhdtour(@tourid int) returns table as
+return (select t.tongtien, count(*) as sodoan
+		from tour_doan d , dbo.fn_doanhthu( '1950-1-1', '2099-1-1' ) t
+		where t.id = @tourid and d.tour_id = @tourid
+		group by t.tongtien)
+		
+select * from dbo.fn_thhdtour(1)
+
+
+
+
+-- Thong ke lan lan di tour cua nhan vien
+declare @tn date = '2020-11-05'
+declare @dn date = '2020-11-11'
+
+select 1
+from tour_doan d
+where d.doan_id in (
+	select 
+	from [dbo].[LIST_STAFF](d.doan_id)
+	where
+)
+

@@ -1,0 +1,89 @@
+﻿
+
+@model IEnumerable<DAO.ViewModel.doanhThuViewModel>
+@{
+    ViewBag.Title = "Thong ke";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    // Layout = null;
+}
+
+<br />
+
+<h2 class="font-weight-bold text-primary">Thống kê doanh thu Tour</h2>
+@using (Html.BeginForm())
+{
+<div class="form-horizontal">
+    <hr />
+
+    <div class="form-group">
+        Tên tour
+        <div class="col-md-10">
+            @Html.DropDownList("tour_id", (IEnumerable<SelectListItem>)ViewBag.tourList, new { @class = "form-control" })
+
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Xem" class="btn btn-danger" />
+        </div>
+    </div>
+</div>
+
+}
+    <table class="table">
+        <tr>
+            <th>
+                STT
+            </th>
+            <th>
+                Tên đoàn
+            </th>
+
+            <th>
+                Số khách
+            </th>
+            <th>
+                Số tiền
+            </th>
+            <th></th>
+        </tr>
+        @{ var i = 0;}
+        @{ var tongdoanhthu = 0;}
+        @foreach (var item in Model)
+        {
+
+            <tr>
+                @{i++;
+                }
+                <td>
+                    @i
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.tenDoan)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.soKhach)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.giaTour)
+                </td>
+                <td>
+                    @{
+                        var sum = Convert.ToInt32(item.giaTour) * item.soKhach;
+                        tongdoanhthu = tongdoanhthu + sum;
+                        @Html.DisplayFor(m => sum);
+                    }
+                   
+                </td>
+                <td></td>
+            </tr>
+            
+                    }
+        @tongdoanhthu;
+
+        </table>
+<script>
+
+
+</script>

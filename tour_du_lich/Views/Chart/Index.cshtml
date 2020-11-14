@@ -1,0 +1,58 @@
+﻿
+@model DAO.ViewModel.DoanhThuTourViewModel
+@{
+	ViewBag.Title = "Thong ke";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+	// Layout = null;
+}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+<br/>
+<h2 class="text-primary">CHỌN LOẠI THỐNG KÊ</h2>
+<select id="typechart">
+	<option value="1">Thong ke doanh thu theo tour</option>
+	<option value="2">ABC12</option>
+	<option value="3">ABC13</option>
+	<option value="4">ABC14</option>
+</select>
+
+<hr />
+<div id="chartcontainer"></div>
+
+<script>
+	function callView(nameChart) {
+
+		$("#chartcontainer").load('@Url.Action("getThongkeDoanhthuTour", "Chart")');
+
+	}
+
+	$(document).ready(function () {
+
+		// CHANGE CBX
+		$('#typechart').change(function () {
+
+			var type = $('#typechart').val();
+			switch (type) {
+				case '1': callView("getChart1"); break;
+			    case '2':window.location.href = '@Url.Action("getThongkeDoanhthuTour", "Chart")';break;
+				case '3': break;
+				case '4': break;
+				default: alert("Type ko hop le");
+			}
+
+		});
+
+	});
+
+
+
+
+
+</script>
+
+
+
+

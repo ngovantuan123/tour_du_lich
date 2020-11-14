@@ -144,6 +144,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tour\TourModel.cs" />
     <Compile Include="ViewModel\AddTourViewModel.cs" />
+    <Compile Include="ViewModel\DashBoardViewModel.cs" />
+    <Compile Include="ViewModel\DoanhThuTourViewModel.cs" />
+    <Compile Include="ViewModel\doanhThuViewModel.cs" />
     <Compile Include="ViewModel\DoanKhachViewModel.cs" />
     <Compile Include="ViewModel\Chart1ViewModel.cs" />
     <Compile Include="ViewModel\KhachHangViewModel.cs" />

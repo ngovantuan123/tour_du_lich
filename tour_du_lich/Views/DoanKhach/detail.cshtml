@@ -457,13 +457,33 @@
         //them chiphi
         function themChiPhi() {
             var data = {
-                idDoan: $("#iddoan").val(),
-                tencp: $("#c_chiphi option:selected").text(),
-                hoadon: $("#sohd").val(),
-                ngayhoadon: $("#ngayhd").val(),
-                noidung: $("#noi_dung").val(),
-                sotien: $("#so_tien").val()
+                    idDoan: $("#iddoan").val(),
+                    tencp: $("#c_chiphi option:selected").text(),
+                    hoadon: $("#sohd").val(),
+                    ngayhoadon: $("#ngayhd").val(),
+                    noidung: $("#noi_dung").val(),
+                    sotien: $("#so_tien").val()                
             };
+            $.ajax({
+                url: "/DoanKhach/themChiPhi",
+                type: "POST",
+                data: JSON.stringify(data),
+                dataType: "json",
+                contentType: "application/json",
+                success: function (response) {
+                    if (response.Success) {
+                        console.log("");
+                    }
+                    else {
+                        err = 'error';
+                        $("#error").text(err);
+                        return false;
+                    }
+                },
+                error: function () {
+                    console.log('error');
+                }
+            });
             console.log("");
         }
 
