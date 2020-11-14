@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Linq.Dynamic;
 using DAO.ViewModel;
+using System.Text;
 
 namespace tour_du_lich.Controllers
 {
@@ -22,6 +23,8 @@ namespace tour_du_lich.Controllers
         {
             return View();
         }
+       
+      
         public ActionResult add()
         {
             var data = new TourViewModel();
@@ -29,9 +32,55 @@ namespace tour_du_lich.Controllers
             data.list_thanhpho = tour.getlistThanhpho();
             return View(data);
         }
+        [HttpPost]
+        public ActionResult Add_new(AddTourViewModel model)
+        {
+            // tour
+            tour t = new tour();
+            t.loai_id = model.loaiTour;
+            t.tour_ten = model.tenTour;
+            t.tour_mota = model.motaTour;
+            // add-> save
+
+            _context.tours.Add(t);
+
+           _context.SaveChanges();
+
+            // do save change nên n cập nhật được id mới lun 
+            int tour_id = t.tour_id;
+
+            // chi tiet tour
+            tour_chitiet chitiet = new tour_chitiet();
+            for(int i=0;i< model.cacDiemDen.Count;++i )
+            {
+                chitiet.tour_id = tour_id;
+                chitiet.dd_id = model.cacDiemDen[i];
+                chitiet.ct_thutu = i + 1;
+
+                //chitiet.
+                // add-> save
+                _context.tour_chitiet.Add(chitiet);
+
+                _context.SaveChanges();
+            }
+
+            return Redirect("Index"); 
+        }
+        
         public ActionResult LoadDiadiem(String thanhpho)
         {
             var query = tour.getlistDiadiemByThanhPho(thanhpho);
+            return Json(query, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult LoadCbxLoaiTour()
+        {
+            var query = tour.getlistLoaiTour();
+            return Json(query, JsonRequestBehavior.AllowGet);
+        }
+        // load cbx thành phố
+        public ActionResult loadCbxThanhPho()
+        {
+            var query = tour.getlistThanhpho();
             return Json(query, JsonRequestBehavior.AllowGet);
         }
         public ActionResult LoadData()
@@ -58,7 +107,25 @@ namespace tour_du_lich.Controllers
 
 
                 // tất cả todo của nhân viên
-                var data = tour.getAllTour();
+                StringBuilder sqlObject = new StringBuilder();
+               
+                sqlObject.Append("	with tmp as(	");
+                sqlObject.Append("	select t.tour_id,t.tour_ten ,t.tour_mota ,l.loai_ten ,dd.dd_ten");
+                sqlObject.Append("	from tours t , tour_chitiet ct, tour_diadiem dd , tour_loai l	");
+                sqlObject.Append("	where t.loai_id = l.loai_id	");
+                sqlObject.Append("	and t.tour_id = ct.tour_id	");
+                sqlObject.Append("	and l.loai_id = t.loai_id	");
+                sqlObject.Append("	and dd.dd_id = ct.dd_id	)");
+              
+              
+                sqlObject.Append("	select distinct tour_id as id_tour, tour_ten as ten_tour,tour_mota as mota_tour,loai_ten as loai_tour , STRING_AGG(dd_ten,'-') as diadiem_tour	");
+                sqlObject.Append("	from tmp		");
+                sqlObject.Append("		group by tour_id,tour_ten,tour_mota,loai_ten		");
+    
+                var data = _context.Database.SqlQuery<TourViewModel>(sqlObject.ToString()).AsQueryable<TourViewModel>();
+                
+
+                //var data = tour.getAllTour();
 
 
 
@@ -70,7 +137,7 @@ namespace tour_du_lich.Controllers
                 //Search    
                 if (!string.IsNullOrEmpty(searchValue))
                 {
-                    data = data.Where(m => m.tour.tour_ten.Contains(searchValue));
+                    data = data.Where(m => m.ten_tour.Contains(searchValue));
 
 
 

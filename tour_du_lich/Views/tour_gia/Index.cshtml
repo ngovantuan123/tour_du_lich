@@ -1,0 +1,98 @@
+﻿@model IEnumerable<DAO.Model.tour_gia>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<br/>
+<h2 class="font-weight-bold text-primary">Bảng giá tour</h2>
+<script>
+
+    // display date
+    function formatStringDate(date) {
+
+        var dateObj = new Date(parseInt(date.substr(6)));
+
+        return dateObj.format("dd/mm/yyyy");
+
+
+    };
+
+    // display format current VND
+    function formatCurrentVND(number) {
+
+        return number.toLocaleString('vi-VN', { currency: 'VND', style: 'currency' });
+    }
+</script>
+
+@using (Html.BeginForm())
+{
+    
+    <div class="form-horizontal">
+       
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            Tên tour
+            <div class="col-md-10">
+                @Html.DropDownList("tour_id", (IEnumerable<SelectListItem>)ViewBag.tourList, new { @class = "form-control" })
+
+            </div>
+        </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Xem giá" class="btn btn-danger" />
+            </div>
+        </div>
+}
+        <p>
+           
+            @Html.ActionLink("Create New", "Create")
+        </p>
+        <table class="table">
+            <tr>
+                <th>
+                   STT
+                </th>
+                <th>
+                   Giá tiền
+                </th>
+               
+                <th>
+                    Từ ngày
+                </th>
+                <th>
+                    Đến ngày
+                </th>
+                <th></th>
+            </tr>
+           @{ var i = 0;}
+            @foreach (var item in Model)
+            {
+              
+                <tr>
+                    @{i++;
+                    }
+                    <td>
+                        @i
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.gia_sotien)
+                    </td>
+                  
+                    <td>
+                        @Html.DisplayFor(modelItem => item.gia_tungay)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.gia_denngay)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.gia_id }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.gia_id }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.gia_id })
+                    </td>
+                </tr>
+            }
+
+        </table>
