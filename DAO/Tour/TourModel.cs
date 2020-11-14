@@ -20,20 +20,21 @@ namespace DAO.Tour
         // get List Tour
         public IQueryable<TourViewModel> getAllTour()
         {
-        
-
-                var lstdata = (from t in _context.tours
+            // ko còn dùng nữa
+            var lstdata = (from t in _context.tours
                              join g in _context.tour_gia on t.tour_id equals g.tour_id
                              join dk in _context.tour_doan on t.tour_id equals dk.tour_id
                              join ct in _context.tour_chitiet on t.tour_id equals ct.tour_id
                              join dd  in _context.tour_diadiem on ct.dd_id equals dd.dd_id
+                             join l in _context.tour_loai on t.loai_id equals l.loai_id
 
                                select new TourViewModel
                              {
                                  tour = t,
                                  gia = g,
                                  doankhach = dk,
-                                 diadiem = dd
+                                 diadiem = dd,
+                                 loai = l
 
                              });
 
@@ -46,6 +47,18 @@ namespace DAO.Tour
 
 
             var lstdata = _context.tour_diadiem.ToList();
+
+            lstdata = lstdata.Distinct().ToList();
+
+
+            return lstdata;
+
+        }
+        public List<tour_loai> getlistLoaiTour()
+        {
+
+
+            var lstdata = _context.tour_loai.ToList();
 
             lstdata = lstdata.Distinct().ToList();
 
