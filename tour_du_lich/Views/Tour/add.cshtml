@@ -14,10 +14,21 @@
     <title>Thêm đoàn khách</title>
     <script src="~/Content/Dashboard/assets/js/jquery.min.js"></script>
     <script src="~/Content/Dashboard/assets/bootstrap/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
-
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.min.css">
-
+   
+    <link rel="stylesheet" type="text/css" href="~/Content/dist/jquery-multi-selection.css" />
+    <link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+     <script src="~/Content/dist/jquery.multi-selection.v1.js"></script>
+  
+   
+    <style>
+        .jp-multiselect select {
+            max-height: 130px;
+        }
+        body {
+           /*color:black;*/ 
+        }
+    </style>
+   
     
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700">
     
@@ -25,73 +36,134 @@
 </head>
 
 <body>
-    <main class="page hire-me-page">
-        <section class="portfolio-block hire-me">
+   
             <div class="container">
-                <div class="heading">
-                    <h2>ADD NEW</h2>
-                </div>
-                @using (Html.BeginForm("add", "Tour", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                {
-                    <div class="form-group">
-                        <div class="form-row">
-                            <div class="col"><label class="col-form-label">Tên đoàn:</label></div>
-                            @Html.TextBoxFor(model => model.tour.tour_ten, new { @class = "form-control", required = "required" })
-                        </div>
+                <br />
+               
+                <h2 class="font-weight-bold text-primary">Thêm mới tour</h2>
+              
+                <div class="form-group">
+                    <div class="form-row">
+                        <div class="col"><label class="col-form-label">Tên Tour:</label></div>
+                        <input id="tenTour"  class="form-control" type="text" required />
                     </div>
-                    
-                    
+                    <div class="form-row">
+                        <div class="col"><label class="col-form-label">Loại Tour:</label></div>
+                        <select id="loaiTour"  class="form-control"  data-placeholder="Hãy chọn loại tour"></select>
+                    </div>
+                    <div class="form-row">
+                        <div class="col"><label class="col-form-label">Mô tả ngắn gọn</label></div>
+                        <textarea name="Text1" class="form-control" id="mota"  rows="5" placeholder="Nội dung mô tả"></textarea>
+                    </div>
+                   </div>
+               
+                   
+
                     <div class="form-group">
                         <div class="form-row" id="chondd">
-                            <div class="col"><label class="col-form-label">Tour:</label></div>
-                            <select id="single" name="tour" class="form-control form-control-chosen" data-placeholder="Please select tour" required="required">
-                                <option></option>
-                                @foreach (var record in Model.list_thanhpho)
-                                {
-                                    <option value="@record">@record</option>
-                                }
-                            </select>
-                            <div id="dd"></div>
-                            <small id="errortour" class="text-danger">
-                            </small>
+                           
                             
-                        </div>
-                        <button id="themdd">+</button>
-                    </div>
-                        <div class="form-group">
-                            <div class="form-row">
-                                <div class="col text-center"><button class="btn btn-primary" id="btnsubmit" type="submit">ADD</button></div>
+                            <!----------------------- mutil select-->
+                            <!-- 1 -->
+
+                            <div class="jp-multiselect">
+                                <div class="col"><label class="col-form-label">Chi tiết địa điểm tham quan:</label></div>
+                                <div class="col"><label class="col-form-label">Chọn thành phố:</label></div>
+                                <select id="single" name="tour" class="form-control" data-placeholder="Chọn Thành phố"></select>
+                                <div class="from-panel">
+
+                                    <select name="from[]" id="diadiem" class="form-control" size="8" multiple="multiple"></select>
+                                </div>
+                                <div class="move-panel">
+                                    <button type="button" class="btn-move-all-right btn-primary"></button>
+                                    <button type="button" class="btn-move-selected-right btn-default"></button>
+                                    <button type="button" class="btn-move-all-left btn-primary"></button>
+                                    <button type="button" class="btn-move-selected-left btn-primary"></button>
+                                </div>
+                                <div class="to-panel">
+                                    <select name="to[]" id="diadiemtt" class="form-control" size="8" multiple="multiple"></select>
+                                </div>
+                                <div class="control-panel">
+                                    <button type="button" class="btn-delete btn-primary"></button>
+                                    <!--
+                                         <button type="button" class="btn-up btn-primary"></button>
+                                    <button type="button" class="btn-down btn-primary"></button>
+                                    
+                                        -->
+                                   
+                                </div>
+
                             </div>
+                        <!---->
+
+                    </div>
+                        <br />
+                    <div class="form-group">
+                        <div class="form-row">
+                           
+                            <div class="col text-center"><button class="btn btn-danger" id="btnsubmit" type="submit">Thêm</button></div>
                         </div>
-                }
+                    </div>
+
+
+
+                    
+                    </div>
+                    <script>
+                        $(".jp-multiselect").jQueryMultiSelection();
+                    </script>
+                    <hr />
+
+
+                
+                <script>
+            $("#dynamic-form").jQueryMultiSelection({
+                enableDynamicAddContent : true,
+            });
+                </script>
+             
+
             </div>
-        </section>
-    </main>
+     
     
-   
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.6/chosen.jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.6.1/pikaday.min.js"></script>
+
+
     <script>
-        $('.form-control-chosen').chosen({
-            
-        });
+       
         $(document).ready(function () {
-            $("#btnsubmit").click(function () {
-                var r = $("#single :selected").val();
-                if (r == "") {
-                    $("#errortour").text("chon tour")  ;
-                }
+           
+
+            // load combobox Loại tour
+            $.getJSON("/Tour/loadCbxLoaiTour", function (data) {
+                $("#loaiTour").empty();
+                $.each(data, function (i, field) {
+                    $("#loaiTour").append("<option value = '" + field.loai_id + "'>" + field.loai_ten + "</option>");
+                });
+
+
+
             });
 
-            // show list checkbox địa điểm
-            $('select').on('change', function () {
+            // load combobox thành phố
+            $.getJSON("/Tour/loadCbxThanhPho", function (data) {
+                $("#single").empty();
+                $.each(data, function (i, field) {
+                    $("#single").append("<option value = '" + field + "'>" + field + "</option>");
+                });
+
+
+
+            });
+
+            // show list địa điểm khi change cbx
+            $('#single').on('change', function () {
                 
                 var thanhpho = $(this).find(":selected").val();
                 
                 $.getJSON("/Tour/LoadDiadiem?thanhpho=" + thanhpho, function (data) {
-                    $("#dd").empty();
+                    $("#diadiem").empty();
                     $.each(data, function (i, field) {             
-                        $("#dd").append("<input type='checkbox' value = '" + field.dd_ten + "'>" + field.dd_ten + "</input><br/>");
+                        $("#diadiem").append("<option value = '" + field.dd_id + "'>" + field.dd_ten + "</option>");
                     });
                    
                     
@@ -100,6 +172,43 @@
                          
 
             });
+
+
+            // add new tour
+
+            $("#btnsubmit").click(function () {
+                // Initialization  
+                var lst = $("select#diadiemtt option").map(function () { return $(this).val(); }).get();
+
+                var mModelAdd = {};
+
+                mModelAdd.tenTour = $('#tenTour').val();
+                mModelAdd.loaiTour = $('#loaiTour').val();
+                mModelAdd.motaTour = $('#mota').val();
+              
+                mModelAdd.cacDiemDen = lst;
+
+                // call ajax
+                $.ajax(
+                {
+                    type: 'POST',
+                    dataType: 'JSON',
+                    url: '/Tour/Add_new',
+                    data: JSON.stringify(mModelAdd),
+                    traditional: true,
+                    contentType: 'application/json; charset=utf-8',
+                    success:function (response) {
+                        alert("ss: " + response);
+                        },
+                    error:function (response) {
+                            window.location.href = '@Url.Action("Index", "Tour")';
+                        }
+                });
+            });
+            
+            
+
+          
            
 
         });

@@ -11,8 +11,7 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>ShowGrid</title>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-   
+    
     <link href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdn.datatables.net/responsive/2.1.1/css/responsive.bootstrap.min.css" rel="stylesheet" />
 
@@ -26,32 +25,29 @@
     <div class="container">
         <br />
         <div style="width:100%; margin:0 auto;">
-            @Html.Partial("ColumnChart");
-            @Html.Partial("Chart1");
-            @Html.Partial("StackedBarChart");
+           
            
             <h2 class="font-weight-bold text-primary">Danh sách Tour</h2>
-            <a class="btn btn-info" href="/Todo/add/">Thêm mới</a>
+            @Html.ActionLink("Thêm mới tour", "add")
 
             <br />
             <br />
 
            
-            <table id="demoGrid" class="table table-striped table-bordered dt-responsive nowrap" width="100%" cellspacing="0">
+            <table  id="demoGrid" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0">
                 <thead>
                     <tr>
+                        
                         <th>Tên tour</th>
                        
 
-                        <th>Giá tour</th>
-                        <th>Địa điểm</th>
+                        <th>Mô tả</th>
+                        <th>Loại tour</th>
 
-                        <th>Giá từ ngày</th>
+                        <th>Danh sách các điểm đến</th>
 
-                        <th>Đoàn khách</th>
-                        <th>Phạm vi</th>
-                        <th>Trạng thái</th>
-                        <th>Đánh dấu đã làm</th>
+                        <th>Xem giá</th>
+                       
 
                     </tr>
                 </thead>
@@ -94,7 +90,7 @@
 
             
             // tạo bảng
-            $("#demoGrid").DataTable({
+            var t = $("#demoGrid").DataTable({
 
                 "processing": true, // for show progress bar
                 "serverSide": true, // for process server side
@@ -108,17 +104,29 @@
                     "type": "POST",
                     "datatype": "json"
                 },
-                columnDefs: [
-                    //{ className: 'text-right', targets: [0, 1, 2,3, 4] },
-                    //{ className: 'text-center', targets: [0,1,2,3,4,5,6,7] }
-                   
-                   
-                ],
-
+               
+               
+                
+                "scrollY": "400px",
+                "scrollX": true,
+                "scrollCollapse": true,
+                "fixedColumns":   {
+                    "leftColumns": 1,
+                    "rightColumns": 1
+                },
+               
 
                 "columns": [
-                      { "data": "tour.tour_ten", "name": "tour.tour_ten", "autoWidth": true },
+                   
+                      { "data": "ten_tour", "name": "ten_tour" },
+                       { "data": "mota_tour", "name": "mota_tour" },
+                       { "data": "loai_tour", "name": "loai_tour"},
+                       { "data": "diadiem_tour", "name": "diadiem_tour" },
+                       {
+                           "render": function (data, type, full, meta) { return '<a class="btn btn-info" href="/tour_gia/index?tour_id=' + full.id_tour + '">Xem</a>'; }
+                       }
                      
+                        /*
                        {
                            "data": "gia.gia_sotien","name": "gia.gia_sotien",
                            "render": function (data) { return formatCurrentVND(data); }
@@ -129,10 +137,12 @@
                           "render": function (data) { return formatStringDate(data); }
                       },
                         { "data": "doankhach.doan_name", "name": "doankhach.doan_name", "autoWidth": true },
-                      
+                      */
                 ]
 
             });
+
+               
 
         });
     </script>

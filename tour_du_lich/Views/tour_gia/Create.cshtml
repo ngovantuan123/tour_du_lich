@@ -1,0 +1,63 @@
+﻿@model DAO.Model.tour_gia
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<br />
+
+<h2 class="font-weight-bold text-primary">Thêm giá tour</h2>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+       
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            Tên tour
+            <div class="col-md-10">
+                @Html.DropDownList("tour_id", (IEnumerable<SelectListItem>)ViewBag.tourList, new { @class = "form-control" })
+
+            </div>
+        </div>
+       
+
+       
+
+        <div class="form-group">
+            Giá từ ngày
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.gia_tungay, new { type = "date" })
+                @Html.ValidationMessageFor(model => model.gia_tungay, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            Giá đến ngày
+             <div class="col-md-10">
+                @Html.TextBoxFor(model => model.gia_denngay, new { type = "date" })
+                @Html.ValidationMessageFor(model => model.gia_denngay, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            Giá tiền
+           <div class="col-md-10">
+                @Html.EditorFor(model => model.gia_sotien, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.gia_sotien, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-danger" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

@@ -10,12 +10,13 @@ namespace DAO.Model
     {
         [Key]
         public int gia_id { get; set; }
-
+        [DisplayFormat(DataFormatString = "{0:C}", ApplyFormatInEditMode = true)]
         public decimal? gia_sotien { get; set; }
 
         public int? tour_id { get; set; }
 
         [Column(TypeName = "date")]
+        [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
         public DateTime? gia_tungay { get; set; }
 
         [Column(TypeName = "date")]
