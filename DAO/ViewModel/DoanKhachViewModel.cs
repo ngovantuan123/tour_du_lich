@@ -1,4 +1,5 @@
-﻿using DAO.Model;
+﻿using DAO.ChiPhi;
+using DAO.Model;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
@@ -25,6 +26,7 @@ namespace DAO.ViewModel
         public tour_gia gia { get; set; }
         public List<tour_gia> list_gia { get; set; }
         public List<tour_loaichiphi> list_loaiCP { get; set; }
+        public List<ChiTietChiPhi> list_chitietcp { get;set; }
 
     }
 }

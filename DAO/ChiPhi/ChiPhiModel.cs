@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Web.Script.Serialization;
 namespace DAO.ChiPhi
 {
     public class ChiPhiModel
@@ -16,16 +16,31 @@ namespace DAO.ChiPhi
         }
         public static List<ChiTietChiPhi> getChiTiet(int idDoan)
         {
-            return null;
+             var cp= dbContext.tour_chiphi.Where(m => m.doan_id == idDoan).FirstOrDefault();
+            List<ChiTietChiPhi> list_ctcp = new List<ChiTietChiPhi>();
+            if (cp.chiphi_chitiet != null)
+            {
+                JavaScriptSerializer js = new JavaScriptSerializer();
+                ChiTietChiPhi[] cps = js.Deserialize<ChiTietChiPhi[]>(cp.chiphi_chitiet);
+                if(cps != null)
+                {     
+                    for (int i = 0; i < cps.Length; i++)
+                    {
+                        list_ctcp.Add(cps[i]);
+                    }
+                }
+            }
+            return list_ctcp;
         }
         public static void addChiPhi(int idDoan, decimal tongTien,String chiTiet)
         {
-            tour_chiphi cp = new tour_chiphi();
-            cp.doan_id = idDoan;
-            cp.chiphi_total =tongTien;
-            cp.chiphi_chitiet = chiTiet;
-            dbContext.tour_chiphi.Add(cp);
-            dbContext.SaveChanges();
+            var cp = dbContext.tour_chiphi.Where(m=>m.doan_id == idDoan).ToList();
+            foreach (tour_chiphi d in cp)
+            {
+                d.chiphi_total = tongTien;
+                d.chiphi_chitiet = chiTiet;              
+            }
+        dbContext.SaveChanges();
         }
         public static tour_chiphi getChiPhiByDoanId(int idDoan)
         {
@@ -35,10 +50,8 @@ namespace DAO.ChiPhi
                 tour_chiphi new_ct = new tour_chiphi();
                 new_ct.doan_id = idDoan;
                 new_ct.chiphi_total = 0;
-                dbContext.tour_chiphi.Add(new_ct);
-                dbContext.SaveChanges();
-                ct = dbContext.tour_chiphi.Where(m => m.doan_id == idDoan).FirstOrDefault();
-
+                ct=dbContext.tour_chiphi.Add(new_ct);
+                dbContext.SaveChanges();              
             }
             return ct;
         }
