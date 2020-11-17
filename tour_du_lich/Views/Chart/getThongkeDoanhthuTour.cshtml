@@ -12,77 +12,102 @@
 <h2 class="font-weight-bold text-primary">Thống kê doanh thu Tour</h2>
 @using (Html.BeginForm())
 {
-<div class="form-horizontal">
-    <hr />
+    <div class="form-horizontal">
+        <hr />
 
-    <div class="form-group">
-        Tên tour
-        <div class="col-md-10">
-            @Html.DropDownList("tour_id", (IEnumerable<SelectListItem>)ViewBag.tourList, new { @class = "form-control" })
+        <div class="form-group">
+            Tên tour
+            <div class="col-md-10">
+                @Html.DropDownList("tour_id", (IEnumerable<SelectListItem>)ViewBag.tourList, new { @class = "form-control" })
 
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Xem" class="btn btn-danger" />
+            </div>
         </div>
     </div>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Xem" class="btn btn-danger" />
-        </div>
-    </div>
-</div>
 
 }
-    <table class="table">
+<table class="table">
+    <tr>
+        <th>
+            STT
+        </th>
+        <th>
+            Tên đoàn
+        </th>
+
+        <th>
+            Số khách
+        </th>
+        <th>
+            Giá Tour
+        </th>
+        <th>
+            Doanh Thu
+        </th>
+        <th>
+            Tổng Chi Phí
+        </th>
+        <th>
+            Lãi
+        </th>
+    </tr>
+    @{ var i = 0;}
+    @{ var tongdoanhthu = 0;}
+    @{ var tongchiphi = 0;}
+    @{ var tonglai = 0;}
+    @foreach (var item in Model)
+    {
+
         <tr>
-            <th>
-                STT
-            </th>
-            <th>
-                Tên đoàn
-            </th>
+            @{i++;
+            }
+            <td>
+                @i
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.tenDoan)
+            </td>
 
-            <th>
-                Số khách
-            </th>
-            <th>
-                Số tiền
-            </th>
-            <th></th>
-        </tr>
-        @{ var i = 0;}
-        @{ var tongdoanhthu = 0;}
-        @foreach (var item in Model)
-        {
-
-            <tr>
-                @{i++;
+            <td>
+                @Html.DisplayFor(modelItem => item.soKhach)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.giaTour)
+            </td>
+            <td>
+                @{
+                    var sum = Convert.ToInt32(item.giaTour) * item.soKhach;
+                    tongdoanhthu = tongdoanhthu + sum;
+                    @Html.DisplayFor(m => sum);
                 }
-                <td>
-                    @i
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.tenDoan)
-                </td>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.soKhach)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.giaTour)
-                </td>
-                <td>
-                    @{
-                        var sum = Convert.ToInt32(item.giaTour) * item.soKhach;
-                        tongdoanhthu = tongdoanhthu + sum;
-                        @Html.DisplayFor(m => sum);
-                    }
-                   
-                </td>
-                <td></td>
-            </tr>
-            
-                    }
-        @tongdoanhthu;
+            </td>
+            <td>
+                @{
+                    tongchiphi = tongchiphi + Convert.ToInt32(item.tongchiphiDoan);
+                    @Html.DisplayFor(modelItem => item.tongchiphiDoan)
+                }
+            </td>
+            <td>
+                @{
+                    var lai = (Convert.ToInt32(item.giaTour) * item.soKhach) - (Convert.ToInt32(item.tongchiphiDoan));
+                    tonglai = tonglai + lai;
+                    @Html.DisplayFor(m => lai);
+                }
+            </td>
+            <td><a class="btn btn-info" href="/DoanKhach/detail?id=@item.idDoan">xem</a></td>
+        </tr>
+    }
+    <tr><td></td><td></td><td></td><td><b>Tổng</b></td><td><b>@tongdoanhthu</b></td><td><b>@tongchiphi</b></td><td><b>@tonglai</b></td></tr>
 
-        </table>
+</table>
+
+
+
 <script>
 
 

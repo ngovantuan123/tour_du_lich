@@ -46,10 +46,12 @@
             </div>
         </div>
 }
-        <p>
-           
-            @Html.ActionLink("Create New", "Create")
-        </p>
+<div style=" float:right">
+    <p>
+
+        @Html.ActionLink("Thêm mới", "Create", new { }, new { @class = "btn btn-info" })
+    </p>
+</div>
         <table class="table">
             <tr>
                 <th>
@@ -88,9 +90,9 @@
                         @Html.DisplayFor(modelItem => item.gia_denngay)
                     </td>
                     <td>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.gia_id }) |
-                        @Html.ActionLink("Details", "Details", new { id = item.gia_id }) |
-                        @Html.ActionLink("Delete", "Delete", new { id = item.gia_id })
+                        @Html.ActionLink("Edit", "Edit", new { id = item.gia_id }, new { @class = "btn btn-info" }) 
+                        @Html.ActionLink("Details", "Details", new { id = item.gia_id }, new { @class = "btn btn-info" }) 
+                        @Html.ActionLink("Delete", "Delete", new { id = item.gia_id }, new { @class = "btn btn-info" })
                     </td>
                 </tr>
             }

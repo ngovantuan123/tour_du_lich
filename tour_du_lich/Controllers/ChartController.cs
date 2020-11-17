@@ -10,6 +10,7 @@ namespace tour_du_lich.Controllers
 {
     public class ChartController : Controller
     {
+        db dbContext = new db();
         // Variable
         db _context = new db();
 
@@ -47,17 +48,17 @@ namespace tour_du_lich.Controllers
             _data.ForEach(t =>
             {
                 doanhThuViewModel main_model = new doanhThuViewModel();
+                main_model.idDoan = t.doanKhach.doan_id;
                 main_model.giaTour =Convert.ToString( t.gia.gia_sotien);
                 main_model.soKhach = t.listKH;
                 main_model.tenDoan = t.doanKhach.doan_name;
+                main_model.tongchiphiDoan = dbContext.tour_chiphi.Where(m=>m.doan_id == t.doanKhach.doan_id).FirstOrDefault().chiphi_total.ToString();
                 //main_model.doanhthuDoan =Convert.ToString( main_model.soKhach * t.gia.gia_sotien);
-               // main_model.laiDoan = Convert.ToDecimal( main_model.doanhthuDoan) - Convert.ToDecimal(main_model.tongchiphiDoan);
-                //main_model.tongChiPhiTour = t.
+                // main_model.laiDoan = Convert.ToDecimal( main_model.doanhthuDoan) - Convert.ToDecimal(main_model.tongchiphiDoan);
+
                 list_doanhthu.Add(main_model);               
             });
-            decimal tongDoanhthu = 0;
-            decimal tongChiPhi = 0;
-            decimal tonglai = 0;
+            
            
 
 

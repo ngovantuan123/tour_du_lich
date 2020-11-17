@@ -17,6 +17,7 @@ namespace DAO.ViewModel
         public String tongChiPhiTour { get; set; }
         public String tongdoanhthuTour { get; set; }
         public String tongLaiTour { get; set; }
+        public int idDoan { get; set; }
 
     }
 }
