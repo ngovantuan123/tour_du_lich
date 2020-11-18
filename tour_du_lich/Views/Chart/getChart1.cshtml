@@ -10,116 +10,122 @@
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 <script src="https://code.highcharts.com/modules/export-data.js"></script>
 <script src="https://code.highcharts.com/modules/accessibility.js"></script>
-
-<div class="form-group">
-	<div class="form-row">
-		<div class="col"><label class="col-form-label">Tu ngay:</label></div>
-		<input id="tn" type="date" />
-	</div>
-</div>
-<div class="form-group">
-	<div class="form-row">
-		<div class="col"><label class="col-form-label">Den ngay:</label></div>
-		<input id="dn" type="date" />
-	</div>
-</div>
-<div class="form-group">
-	<div class="form-row">
-		<div class="col text-center"><button class="btn btn-primary" id="btnsubmit" type="submit">Show</button></div>
-	</div>
+<div class="col-lg-4">
+    <div class="form-group">
+        <div class="form-row">
+            <div class="col"><label class="col-form-label">Từ ngày:</label></div>
+            <input id="tn" type="date" />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="form-row">
+            <div class="col"><label class="col-form-label">Đến ngày:</label></div>
+            <input id="dn" type="date" />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="form-row">
+            <div class="col text-center"><button class="btn btn-primary" id="btnsubmit" type="submit">Show</button></div>
+        </div>
+    </div>
 </div>
 
 <figure class="highcharts-figure">
 	<div id="container"></div>
 	<p class="highcharts-description">
-		A basic column chart compares rainfall values between four cities.
-		Tokyo has the overall highest amount of rainfall, followed by New York.
-		The chart is making use of the axis crosshair feature, to highlight
-		months as they are hovered over.
+        <center>Thống kê tổng doanh thu các tour du lịch</center>
 	</p>
 </figure>
 
 <script>
+    $("#btnsubmit").click(function () {
+        var param = { tn: $("#tn").val(), dn: $("#dn").val() }
+       
+        showchart(param);
 
+
+    });
 	$(document).ready(function () {
 
-		$("#btnsubmit").click(function () {
+        var param = { tn: "2000-1-01", dn: "2021-1-1" }
+        showchart(param);
 
-			var param = { tn: $("#tn").val(), dn: $("#dn").val() }
+		
 
-			var tens = [];
-			var tongtiens = [];
-			var chiphis = [];
-			var lais = [];
-
-			$.getJSON("/Chart/getDataDoanhThuTour", param, function (data) { // "/DoanhThuTour/getData"
-
-			    // create list
-                debugger
-
-				for (var i = 0; i < data.length; i++) {
-					tens.push(data[i].ten);
-					tongtiens.push(data[i].tongtien);
-					chiphis.push(data[i].chiphi);
-					lais.push(data[i].lai);
-				}
-
-
-				// gọi chart
-				Highcharts.chart('container', {
-					chart: {
-						type: 'column'
-					},
-					title: {
-						text: 'Monthly Average Rainfall'
-					},
-					subtitle: {
-						text: 'Source: WorldClimate.com'
-					},
-					xAxis: {
-
-						categories: tens, // data
-						crosshair: true
-					},
-					yAxis: {
-						min: 0,
-						title: {
-							text: 'Rainfall (mm)'
-						}
-					},
-					tooltip: {
-						headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-						pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-							'<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
-						footerFormat: '</table>',
-						shared: true,
-						useHTML: true
-					},
-					plotOptions: {
-						column: {
-							pointPadding: 0.2,
-							borderWidth: 0
-						}
-					},
-					series: [{
-						name: 'Doanh thu',
-						data: tongtiens
-
-					}, {
-						name: 'Chi phi',
-						data: chiphis
-
-					}, {
-						name: 'Lai',
-						data: lais
-
-					}]
-				});
-
-			});
-
-		});
 	});
+	function showchart(param) {
+        var tens = [];
+        var tongtiens = [];
+        var chiphis = [];
+        var lais = [];
+
+        $.getJSON("/Chart/getDataDoanhThuTour", param, function (data) { // "/DoanhThuTour/getData"
+
+            // create list
+            debugger
+
+            for (var i = 0; i < data.length; i++) {
+                tens.push(data[i].ten);
+                tongtiens.push(data[i].tongtien);
+                chiphis.push(data[i].chiphi);
+                lais.push(data[i].lai);
+            }
+
+
+            // gọi chart
+            Highcharts.chart('container', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: 'Doanh Thu'
+                },
+                subtitle: {
+                    text: 'Theo tours'
+                },
+                xAxis: {
+
+                    categories: tens, // data
+                    crosshair: true
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Triệu VND'
+                    }
+                },
+                tooltip: {
+                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                        '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+                    footerFormat: '</table>',
+                    shared: true,
+                    useHTML: true
+                },
+                plotOptions: {
+                    column: {
+                        pointPadding: 0.2,
+                        borderWidth: 0
+                    }
+                },
+                series: [{
+                    name: 'Doanh thu',
+                    data: tongtiens
+
+                }, {
+                    name: 'Chi phi',
+                    data: chiphis
+
+                }, {
+                    name: 'Lai',
+                    data: lais
+
+                }]
+            });
+
+        });
+    }
+
 </script>
 
 

@@ -34,8 +34,39 @@ namespace tour_du_lich.Controllers
             var data = _context.Database.SqlQuery<DashBoardViewModel>(sqlObject.ToString()).ToList();
             return Json(data, JsonRequestBehavior.AllowGet);
         }
+        public ActionResult tongsodoantrongnam()
+        {
+            string sql = "select count(doan_id) as sldoan\n" +
+                        "from tour_doan d\n" +
+                        "where doan_ngaydi >= DATEFROMPARTS(YEAR(GETDATE()), 1, 1)\n" +
+                            "and doan_ngayve <= DATEFROMPARTS(YEAR(GETDATE()), 12, 31);";
+            var data = _context.Database.SqlQuery<DashBoardViewModel>(sql).ToList();
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult tourhoatdongnhieunhat()
+        {
+            String sql = "select tour_ten as tour_di_nhieu_nhat\n"+
+                         "from tours t, (select top 1 tour_id, count(doan_id) as sldoan\n" +
+                                        "from tour_doan\n" +
+                                        "group by tour_id) tmp\n" +
+                          "where t.tour_id = tmp.tour_id";
+            var data = _context.Database.SqlQuery<DashBoardViewModel>(sql).ToList();
+            return Json(data, JsonRequestBehavior.AllowGet);
 
-        public ActionResult About()
+        }
+        public ActionResult tourdoanhthucaonhat() {
+            string sql =
+            "select tour_ten as tour_doanh_thu_cao_nhat\n" +
+"from(select top 1 t.tour_ten, g.gia_sotien * dbo.COUNT_PEOPLE(d.doan_id) as sotien\n" +
+        "from tour_doan d, tours t, tour_gia g\n" +
+       " where d.tour_id = t.tour_id and t.tour_id = g.tour_id\n" +
+           " and d.doan_ngaydi >= g.gia_tungay\n" +
+          "  and d.doan_ngayve <= g.gia_denngay) tmp";
+            var data = _context.Database.SqlQuery<DashBoardViewModel>(sql).ToList();
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
+            public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
 

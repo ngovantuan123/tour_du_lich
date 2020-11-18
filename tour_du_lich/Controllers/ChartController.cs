@@ -13,6 +13,7 @@ namespace tour_du_lich.Controllers
         db dbContext = new db();
         // Variable
         db _context = new db();
+        DoanKhachModel doanKhachModel = new DoanKhachModel();
 
         // GET: Chart
         public ActionResult Index()
@@ -21,7 +22,7 @@ namespace tour_du_lich.Controllers
         }
         public ActionResult getChart1()
         {
-            return PartialView("DoanhThuTourView");
+            return PartialView("getChart1");
         }
 
 
@@ -65,7 +66,66 @@ namespace tour_du_lich.Controllers
 
             return View(list_doanhthu);
         }
+        public ActionResult nhanvienditour([Bind(Include = "nv_id")] tour_nhanvien tour_nhanvien,string tn,string dn)
+        {
+            int nvid = tour_nhanvien.nv_id;
+            if(nvid == 0)
+            {
+                nvid = 1;
+            }
+            NhanVienDiTourViewModel nvdt = new NhanVienDiTourViewModel();
+            List<tour_nhanvien> cate = dbContext.tour_nhanvien.ToList();
+            SelectList List = new SelectList(cate, "nv_id", "nv_ten", 1);
+            ViewBag.nvList = List;
+            string sql;
+            if ((tn ==null || dn ==null)||(tn.Equals("") || dn.Equals("")))
+            {
+                 sql = "declare @tn date = '2020-10-5'\n" +
+            "declare @dn date = '2020-12-11' select * from dbo.fn_dsdoan(@tn, @dn)";
+            }
+            else
+            {
+                 sql = "declare @tn date = '" + tn + "'\n" +
+            "declare @dn date = '" + dn + "' select * from dbo.fn_dsdoan(@tn, @dn)";
+            }
+            
+            
+            List<NhanVienDiTourViewModel> temp = dbContext.Database.SqlQuery<NhanVienDiTourViewModel>(sql).ToList();
+            
+            List<tour> lt = new List<tour>();
+            for(int i = 0; i < temp.Count(); i++)
+            {
+                int idd = temp[i].doan_id;
+                Dictionary<String, Object> result = doanKhachModel.getNhanVienAndKhachHang(idd);
+                List < tour_nhanvien > nvs = ((List<tour_nhanvien>)result["nv"]);
+                nvs.ForEach(m => { 
+                    if(nvid == Convert.ToInt32(m.nv_id))
+                    {
+                        tour_doan d = dbContext.tour_doan.Where(t => t.doan_id == idd).FirstOrDefault();
+                        lt.Add(dbContext.tours.Where(t => t.tour_id == d.tour_id).FirstOrDefault());
+                    }
+                });
+                
+                
+            }
+            nvdt.list_t = lt;
 
+            Dictionary<String, int> kq = new Dictionary<string, int>();
+            lt.ForEach(m =>
+            {
+                if (kq.ContainsKey(m.tour_ten))
+                {
+                    kq[m.tour_ten] += 1;
+                }
+                else
+                {
+                    kq.Add(m.tour_ten, 1);
+                }
+            });
+            nvdt.kq = kq;
+
+            return View(nvdt);
+        }
 
         // Chi phi theo tour
         //public ActionResult getDataChiPhi()

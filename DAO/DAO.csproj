@@ -151,6 +151,7 @@
     <Compile Include="ViewModel\DoanKhachViewModel.cs" />
     <Compile Include="ViewModel\Chart1ViewModel.cs" />
     <Compile Include="ViewModel\KhachHangViewModel.cs" />
+    <Compile Include="ViewModel\NhanVienDiTourViewModel.cs" />
     <Compile Include="ViewModel\NhanVienViewModel.cs" />
     <Compile Include="ViewModel\TourViewModel.cs" />
   </ItemGroup>

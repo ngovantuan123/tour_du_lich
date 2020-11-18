@@ -284,6 +284,7 @@
     <Content Include="Views\Chart\getChart1.cshtml" />
     <Content Include="Views\Chart\Index.cshtml" />
     <Content Include="Views\Chart\getThongkeDoanhthuTour.cshtml" />
+    <Content Include="Views\Chart\nhanvienditour.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
